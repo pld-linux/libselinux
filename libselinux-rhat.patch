@@ -1,0 +1,108 @@
+--- libselinux-1.4/utils/getcon.c.rhat	2003-10-24 16:39:11.000000000 -0400
++++ libselinux-1.4/utils/getcon.c	2003-12-12 13:31:30.361966762 -0500
+@@ -2,19 +2,103 @@
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <selinux/selinux.h>
++#include <selinux/context.h>
++#include <getopt.h> 
++
++/* The name the program was run with. */
++static char *program_name;
++static struct option const long_options[] =
++{
++  {"user", no_argument, 0, 'u'},
++  {"role", no_argument, 0, 'r'},      
++  {"type", no_argument, 0, 't'},
++  {"help", no_argument, 0, 'h'},
++  {0, 0, 0, 0}
++};
++
++static void
++usage (int status)
++{
++  if (status != 0)
++    fprintf (stderr, "Try `%s --help' for more information.\n",
++	     program_name);
++  else
++    {
++      printf ("\
++Usage: %s [ [-u USER] | [-r ROLE] | [-t TYPE] ] \n\
++",
++	program_name);
++      printf ("\
++Get the current security context for this process.\n\
++\n\
++  -u, --user=USER        set user USER in the target security context\n\
++  -r, --role=ROLE        set role ROLE in the target security context\n\
++  -t, --type=TYPE        set type TYPE in the target security context\n\
++      --help             display this help and exit\n\
++      --version          output version information and exit\n\
++");
++    }
++  exit (status);
++}
+ 
+ int main(int argc __attribute__ ((unused)), char **argv) 
+ {
+ 	char *buf;
+ 	int rc;
++	int user=0,type=0,role=0,show_help=0;
++	char optc;
++	program_name = argv[0];
++	while ((optc = getopt_long (argc, argv, "hurt", long_options, NULL)) != -1)
++	  {
++	    switch (optc)
++	      {
++	      case 0:
++		break;
++	      case 'u':
++		if (type || role) 
++		  usage(1);
++		user = 1;
++		break;
++	      case 'r':
++		if (user || type) 
++		  usage(1);
++		role = 1;
++		break;
++	      case 't':
++		if (user || role) 
++		  usage(1);
++		type=1;
++		break;
++	      case 'h':
++		show_help=1;
++		break;
++	  default:
++		  usage (1);
++	      }
++	  }
+ 
+ 	rc = getcon(&buf);
+ 	if (rc < 0) {
+ 		fprintf(stderr, "%s:  getcon() failed\n", argv[0]);
+ 		exit(2);
+ 	}
+-
+-	printf("%s\n", buf);
++	if (show_help)
++	  usage (0);
++	if (role || user || type) {
++	  context_t context=context_new(buf);
++	  if (user) {
++	    printf("%s",context_user_get(context));
++	  }
++	  if (role) {
++	    printf("%s",context_role_get(context));
++	  }
++	  if (type) {
++	    printf("%s",context_type_get(context));
++	  }
++	    context_free(context);
++	} else {
++	  printf("%s\n", buf);
++	}
+ 	freecon(buf);
+ 	exit(0);
+ }
