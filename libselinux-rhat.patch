@@ -1,118 +1,64 @@
---- libselinux-1.4/utils/getcon.c.rhat	2003-10-24 16:39:11.000000000 -0400
-+++ libselinux-1.4/utils/getcon.c	2003-12-18 14:50:39.000000000 -0500
-@@ -2,19 +2,103 @@
- #include <stdio.h>
- #include <stdlib.h>
- #include <selinux/selinux.h>
-+#include <selinux/context.h>
-+#include <getopt.h> 
+diff --exclude-from=exclude -N -u -r nsalibselinux/include/selinux/selinux.h libselinux-1.17.12/include/selinux/selinux.h
+--- nsalibselinux/include/selinux/selinux.h	2004-09-14 09:31:35.000000000 -0400
++++ libselinux-1.17.12/include/selinux/selinux.h	2004-09-15 16:36:13.000000000 -0400
+@@ -197,6 +197,7 @@
+    policy root directory. */
+ extern const char *selinux_binary_policy_path(void);
+ extern const char *selinux_failsafe_context_path(void);
++extern const char *selinux_removable_context_path(void);
+ extern const char *selinux_default_context_path(void);
+ extern const char *selinux_user_contexts_path(void);
+ extern const char *selinux_file_context_path(void);
+diff --exclude-from=exclude -N -u -r nsalibselinux/src/compat_file_path.h libselinux-1.17.12/src/compat_file_path.h
+--- nsalibselinux/src/compat_file_path.h	2004-09-14 09:31:35.000000000 -0400
++++ libselinux-1.17.12/src/compat_file_path.h	2004-09-15 16:41:01.000000000 -0400
+@@ -8,3 +8,5 @@
+ S_(DEFAULT_TYPE, SECURITYDIR "/default_type")
+ S_(BOOLEANS, SECURITYDIR "/booleans")
+ S_(MEDIA_CONTEXTS, SECURITYDIR "/default_media")
++S_(REMOVABLE_CONTEXT, SECURITYDIR "/removable_context")
 +
-+/* The name the program was run with. */
-+static char *program_name;
-+static struct option const long_options[] =
-+{
-+  {"user", no_argument, 0, 'u'},
-+  {"role", no_argument, 0, 'r'},      
-+  {"type", no_argument, 0, 't'},
-+  {"help", no_argument, 0, 'h'},
-+  {0, 0, 0, 0}
-+};
-+
-+static void
-+usage (int status)
-+{
-+  if (status != 0)
-+    fprintf (stderr, "Try `%s --help' for more information.\n",
-+	     program_name);
-+  else
-+    {
-+      printf ("\
-+Usage: %s [ [-u USER] | [-r ROLE] | [-t TYPE] ] \n\
-+",
-+	program_name);
-+      printf ("\
-+Get the current security context for this process.\n\
-+\n\
-+  -u, --user=USER        set user USER in the target security context\n\
-+  -r, --role=ROLE        set role ROLE in the target security context\n\
-+  -t, --type=TYPE        set type TYPE in the target security context\n\
-+      --help             display this help and exit\n\
-+      --version          output version information and exit\n\
-+");
-+    }
-+  exit (status);
-+}
+diff --exclude-from=exclude -N -u -r nsalibselinux/src/file_path_suffixes.h libselinux-1.17.12/src/file_path_suffixes.h
+--- nsalibselinux/src/file_path_suffixes.h	2004-09-14 09:31:35.000000000 -0400
++++ libselinux-1.17.12/src/file_path_suffixes.h	2004-09-15 16:38:30.000000000 -0400
+@@ -8,3 +8,4 @@
+ S_(DEFAULT_TYPE, "/contexts/default_type")
+ S_(BOOLEANS, "/booleans")
+ S_(MEDIA_CONTEXTS, "/contexts/files/media")
++S_(REMOVABLE_CONTEXT, "/contexts/removable_context")
+diff --exclude-from=exclude -N -u -r nsalibselinux/src/selinux_config.c libselinux-1.17.12/src/selinux_config.c
+--- nsalibselinux/src/selinux_config.c	2004-09-14 09:31:36.000000000 -0400
++++ libselinux-1.17.12/src/selinux_config.c	2004-09-15 16:39:02.000000000 -0400
+@@ -25,7 +25,8 @@
+ #define DEFAULT_TYPE      6
+ #define BOOLEANS          7
+ #define MEDIA_CONTEXTS    8
+-#define NEL               9
++#define REMOVABLE_CONTEXT 9
++#define NEL               10
  
- int main(int argc __attribute__ ((unused)), char **argv) 
- {
- 	char *buf;
- 	int rc;
-+	int user=0,type=0,role=0,show_help=0;
-+	char optc;
-+	program_name = argv[0];
-+	while ((optc = getopt_long (argc, argv, "hurt", long_options, NULL)) != -1)
-+	  {
-+	    switch (optc)
-+	      {
-+	      case 0:
-+		break;
-+	      case 'u':
-+		if (type || role) 
-+		  usage(1);
-+		user = 1;
-+		break;
-+	      case 'r':
-+		if (user || type) 
-+		  usage(1);
-+		role = 1;
-+		break;
-+	      case 't':
-+		if (user || role) 
-+		  usage(1);
-+		type=1;
-+		break;
-+	      case 'h':
-+		show_help=1;
-+		break;
-+	  default:
-+		  usage (1);
-+	      }
-+	  }
- 
- 	rc = getcon(&buf);
- 	if (rc < 0) {
- 		fprintf(stderr, "%s:  getcon() failed\n", argv[0]);
- 		exit(2);
- 	}
--
--	printf("%s\n", buf);
-+	if (show_help)
-+	  usage (0);
-+	if (role || user || type) {
-+	  context_t context=context_new(buf);
-+	  if (user) {
-+	    printf("%s",context_user_get(context));
-+	  }
-+	  if (role) {
-+	    printf("%s",context_role_get(context));
-+	  }
-+	  if (type) {
-+	    printf("%s",context_type_get(context));
-+	  }
-+	    context_free(context);
-+	} else {
-+	  printf("%s\n", buf);
-+	}
- 	freecon(buf);
- 	exit(0);
+ /* New layout is relative to SELINUXDIR/policytype. */
+ static char *file_paths[NEL];
+@@ -192,6 +193,11 @@
  }
---- libselinux-1.4/utils/Makefile.rhat	2003-12-19 15:37:51.815619330 -0500
-+++ libselinux-1.4/utils/Makefile	2003-12-19 15:37:32.014789494 -0500
-@@ -1,6 +1,5 @@
- # Installation directories.
--PREFIX ?= $(DESTDIR)/usr
--BINDIR ?= $(PREFIX)/bin
-+BINDIR ?= $(DESTDIR)/bin
+ hidden_def(selinux_failsafe_context_path)
  
- CFLAGS = -Wall
- override CFLAGS += -I../include
++const char *selinux_removable_context_path() {
++  return get_path(REMOVABLE_CONTEXT);
++}
++hidden_def(selinux_removable_context_path)
++
+ const char *selinux_binary_policy_path() {
+   return get_path(BINPOLICY);
+ }
+diff --exclude-from=exclude -N -u -r nsalibselinux/src/selinux_internal.h libselinux-1.17.12/src/selinux_internal.h
+--- nsalibselinux/src/selinux_internal.h	2004-08-25 08:44:17.000000000 -0400
++++ libselinux-1.17.12/src/selinux_internal.h	2004-09-15 16:32:14.000000000 -0400
+@@ -16,6 +16,7 @@
+ hidden_proto(security_getenforce)
+ hidden_proto(selinux_default_context_path)
+ hidden_proto(selinux_failsafe_context_path)
++hidden_proto(selinux_removable_context_path)
+ hidden_proto(selinux_file_context_path)
+ hidden_proto(selinux_user_contexts_path)
+ hidden_proto(selinux_booleans_path)
