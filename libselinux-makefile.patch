@@ -1,6 +1,6 @@
-diff -Nur libselinux-1.0/include/Makefile libselinux-1.0.new/include/Makefile
---- libselinux-1.0/include/Makefile	2003-06-02 22:17:25.000000000 +0200
-+++ libselinux-1.0.new/include/Makefile	2003-06-18 13:03:25.000000000 +0200
+diff -Nur libselinux-1.0.orig/include/Makefile libselinux-1.0/include/Makefile
+--- libselinux-1.0.orig/include/Makefile	2003-06-02 22:17:25.000000000 +0200
++++ libselinux-1.0/include/Makefile	2003-06-26 23:18:49.000000000 +0200
 @@ -3,5 +3,5 @@
  INCDIR ?= $(PREFIX)/include/selinux
  
@@ -9,10 +9,27 @@ diff -Nur libselinux-1.0/include/Makefile libselinux-1.0.new/include/Makefile
 -	install -m 644 -o root -g root $(wildcard selinux/*.h) $(INCDIR)
 +	test -d $(INCDIR) || install -m 755 -d $(INCDIR)
 +	install -m 644 $(wildcard selinux/*.h) $(INCDIR)
-diff -Nur libselinux-1.0/src/Makefile libselinux-1.0.new/src/Makefile
---- libselinux-1.0/src/Makefile	2003-06-09 21:22:57.000000000 +0200
-+++ libselinux-1.0.new/src/Makefile	2003-06-18 13:06:34.000000000 +0200
-@@ -25,11 +25,10 @@
+diff -Nur libselinux-1.0.orig/src/Makefile libselinux-1.0/src/Makefile
+--- libselinux-1.0.orig/src/Makefile	2003-06-09 21:22:57.000000000 +0200
++++ libselinux-1.0/src/Makefile	2003-06-26 23:20:25.000000000 +0200
+@@ -9,7 +9,7 @@
+ TARGET=libselinux.so
+ LIBSO=$(TARGET).$(LIBVERSION)
+ OBJS= $(patsubst %.c,%.o,$(wildcard *.c))
+-CFLAGS = -fPIC -Wall -I../include 
++CFLAGS = $(OPTFLAGS) -fPIC -Wall -I../include 
+ 
+ all: $(LIBA) $(LIBSO)
+ 
+@@ -18,18 +18,17 @@
+ 	ranlib $@
+ 
+ $(LIBSO): $(OBJS)
+-	$(CC) $(LDFLAGS) -shared -o $@ $^ -lc
++	$(CC) $(LDFLAGS) -shared -o $@ $^ -Wl,-soname=$(LIBSO)
+ 	ln -sf $@ $(TARGET) 
+ 
+ %.o:  %.c
  	$(CC) -o $@ -c $(CFLAGS) $<
  
  install: all
@@ -27,3 +44,15 @@ diff -Nur libselinux-1.0/src/Makefile libselinux-1.0.new/src/Makefile
  
  clean: 
  	rm -f $(OBJS) $(LIBA) $(LIBSO) $(TARGET) 
+diff -Nur libselinux-1.0.orig/utils/Makefile libselinux-1.0/utils/Makefile
+--- libselinux-1.0.orig/utils/Makefile	2003-06-12 21:31:47.000000000 +0200
++++ libselinux-1.0/utils/Makefile	2003-06-26 23:19:30.000000000 +0200
+@@ -2,7 +2,7 @@
+ PREFIX ?= $(DESTDIR)/usr
+ BINDIR ?= $(PREFIX)/bin
+ 
+-CFLAGS += -Wall -I../include
++CFLAGS += $(OPTFLAGS) -Wall -I../include
+ LDLIBS += -L../src -lselinux -lattr
+ 
+ TARGETS=$(patsubst %.c,%,$(wildcard *.c))

@@ -8,9 +8,8 @@ Group:		Libraries
 # Source0-md5:	68ad918dd3d7fd3d4dc49b3a0715743c
 Source0:	http://www.nsa.gov/selinux/lk/%{name}-%{version}.tgz
 Patch0:		%{name}-makefile.patch
-BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 BuildRequires:	attr-devel
-Provides:	libselinux.so
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	selinux-libs
 
 %description
@@ -29,25 +28,26 @@ process and file security contexts and to obtain security policy
 decisions. Required for any applications that use the SELinux API.
 
 %description -l pl
-Security-enhanced Linux jest prototypem j±dra Linuksa i wielu aplikacji 
-u¿ytkowych o funkcjach podwy¿szonego bezpieczeñstwa. Zaprojektowany jest
-tak, aby w prosty sposób ukazaæ znaczenie mandatowej kontroli dostêpu dla 
-spo³eczno¶ci Linuksowej. Ukazuje równie¿ jak tak± kontrolê mo¿na dodaæ do 
-istniej±cego systemu typu Linuks. J±dro SELinux zawiera nowe sk³adniki 
-architektury pierwotnie opracowane w celu ulepszenia bezpieczeñstwa systemu 
-operacyjnego Flask. Te elementy zapewniaj± ogólne wsparcie we wdra¿aniu wielu 
-typów polityk mandatowej kontroli dostêpu, w³±czaj±c te wzorowane na: Type 
-Enforcement (TE), kontroli dostêpu opartej na rolach (RBAC) i zabezpieczeniach 
-wielopoziomowych.
+Security-enhanced Linux jest prototypem j±dra Linuksa i wielu
+aplikacji u¿ytkowych o funkcjach podwy¿szonego bezpieczeñstwa.
+Zaprojektowany jest tak, aby w prosty sposób ukazaæ znaczenie
+mandatowej kontroli dostêpu dla spo³eczno¶ci Linuksowej. Ukazuje
+równie¿ jak tak± kontrolê mo¿na dodaæ do istniej±cego systemu typu
+Linux. J±dro SELinux zawiera nowe sk³adniki architektury pierwotnie
+opracowane w celu ulepszenia bezpieczeñstwa systemu operacyjnego
+Flask. Te elementy zapewniaj± ogólne wsparcie we wdra¿aniu wielu typów
+polityk mandatowej kontroli dostêpu, w³±czaj±c te wzorowane na: Type
+Enforcement (TE), kontroli dostêpu opartej na rolach (RBAC) i
+zabezpieczeniach wielopoziomowych.
 
-libselinux dostarcza API dla aplikacji SELinux aby mog³y pobieraæ i ustawiaæ
-procesy i konteksty plików w celu korzystania z polityki bezpieczeñstwa. 
-Bibilioteka jest wymagana przez wszystkie aplikacje które u¿ywaj± API SELinux.
-
+libselinux dostarcza API dla aplikacji SELinux aby mog³y pobieraæ i
+ustawiaæ procesy i konteksty plików w celu korzystania z polityki
+bezpieczeñstwa. Bibilioteka jest wymagana przez wszystkie aplikacje,
+które u¿ywaj± API SELinux.
 
 %package devel
 Summary:        Header files and devel documentation
-Summary(pl):    Pliki nag³ówkowe i dokumentacja developerska
+Summary(pl):    Pliki nag³ówkowe i dokumentacja programistyczna
 Group:          Development/Libraries
 Requires:       %{name} = %{version}
 Obsoletes:	selinux-libs-devel
@@ -56,7 +56,7 @@ Obsoletes:	selinux-libs-devel
 Header files and devel documentation for SELinux libraries.
 
 %description devel -l pl
-Pliki nag³ówkowe i dokumentacja developerska bibliotek SELinux.
+Pliki nag³ówkowe i dokumentacja programistyczna bibliotek SELinux.
 
 %package static
 Summary:        Static SELinux library
@@ -89,14 +89,16 @@ Narzêdzia SELinux.
 %patch0 -p1
 
 %build
-%{__make}
+%{__make} \
+	CC="%{__cc}" \
+	OPTFLAGS="%{rpmcflags}"
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_libdir}
-install -d $RPM_BUILD_ROOT%{_includedir}
-install -d $RPM_BUILD_ROOT%{_bindir}
-%{__make} DESTDIR="$RPM_BUILD_ROOT" install
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir},%{_includedir}}
+
+%{__make} install \
+	DESTDIR="$RPM_BUILD_ROOT"
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -107,11 +109,11 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libselinux.so.*
-%{_libdir}/libselinux.so
 
 %files devel
 %defattr(644,root,root,755)
-%{_includedir}/selinux/*.h
+%{_libdir}/libselinux.so
+%{_includedir}/selinux
 
 %files static
 %defattr(644,root,root,755)
