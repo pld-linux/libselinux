@@ -1,3 +1,7 @@
+#
+# TODO:
+#		- http://gcc.gnu.org/PR17674
+#
 Summary:	SELinux library and simple utilities
 Summary(pl):	Biblioteka SELinux i proste narzêdzia
 Name:		libselinux
