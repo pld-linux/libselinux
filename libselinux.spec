@@ -2,7 +2,7 @@ Summary:	SELinux library and simple utilities
 Summary(pl):	Biblioteka SELinux i proste narzêdzia
 Name:		libselinux
 Version:	1.18
-Release:	1
+Release:	2
 Epoch:		0
 License:	Public Domain
 Group:		Libraries
@@ -91,7 +91,7 @@ Narzêdzia SELinux.
 %build
 %{__make} \
 	CC="%{__cc}" \
-	CFLAGS="%{rpmcflags}"
+	CFLAGS="%{rpmcflags} -D_FILE_OFFSET_BITS=64"
 
 %install
 rm -rf $RPM_BUILD_ROOT
