@@ -39,14 +39,14 @@ obowi±zkowej kontroli dostêpu dla spo³eczno¶ci Linuksowej. Ukazuje
 równie¿ jak tak± kontrolê mo¿na dodaæ do istniej±cego systemu typu
 Linux. J±dro SELinux zawiera nowe sk³adniki architektury pierwotnie
 opracowane w celu ulepszenia bezpieczeñstwa systemu operacyjnego
-Flask. Te elementy zapewniaj± ogólne wsparcie we wdra¿aniu wielu typów
-polityk obowi±zkowej kontroli dostêpu, w³±czaj±c te wzorowane na: Type
-Enforcement (TE), kontroli dostêpu opartej na rolach (RBAC) i
-zabezpieczeniach wielopoziomowych.
+Flask. Te elementy zapewniaj± ogólne wsparcie we wdra¿aniu wielu 
+typów polityk obowi±zkowej kontroli dostêpu, w³±czaj±c te wzorowane 
+na: Type Enforcement (TE), kontroli dostêpu opartej na rolach (RBAC) 
+i zabezpieczeniach wielopoziomowych.
 
-libselinux dostarcza API dla aplikacji SELinux aby mog³y pobieraæ i
-ustawiaæ procesy i konteksty plików w celu korzystania z polityki
-bezpieczeñstwa. Bibilioteka jest wymagana przez wszystkie aplikacje,
+libselinux dostarcza API dla aplikacji SELinux aby mog³y pobieraæ 
+i ustawiaæ procesy i konteksty plików w celu korzystania z polityki
+bezpieczeñstwa. Biblioteka jest wymagana przez wszystkie aplikacje,
 które u¿ywaj± API SELinux.
 
 %package devel
