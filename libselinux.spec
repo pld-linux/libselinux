@@ -36,7 +36,7 @@ decisions. Required for any applications that use the SELinux API.
 Security-enhanced Linux jest prototypem j±dra Linuksa i wielu
 aplikacji u¿ytkowych o funkcjach podwy¿szonego bezpieczeñstwa.
 Zaprojektowany jest tak, aby w prosty sposób ukazaæ znaczenie
-obowi±zkowej kontroli dostêpu dla spo³eczno¶ci Linuksowej. Ukazuje
+obowi±zkowej kontroli dostêpu dla spo³eczno¶ci linuksowej. Ukazuje
 równie¿ jak tak± kontrolê mo¿na dodaæ do istniej±cego systemu typu
 Linux. J±dro SELinux zawiera nowe sk³adniki architektury pierwotnie
 opracowane w celu ulepszenia bezpieczeñstwa systemu operacyjnego
