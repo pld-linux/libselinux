@@ -1,17 +1,13 @@
-#
 Summary:	SELinux library and simple utilities
 Summary(pl):	Biblioteka SELinux i proste narzêdzia
 Name:		libselinux
-Version:	1.17.13
-Release:	3
+Version:	1.18
+Release:	1
 Epoch:		0
 License:	Public domain (uncopyrighted)
 Group:		Libraries
-Source0:	%{name}-%{version}.tgz
-# Source0-md5:	d58a9f339eba75273cb05034196c68ee
-#Source0:	http://www.nsa.gov/selinux/archives/%{name}-%{version}.tgz
-Patch0:		%{name}-rhat.patch
-Patch1:		%{name}-alpha-as.patch
+Source0:	http://www.nsa.gov/selinux/archives/%{name}-%{version}.tgz
+# Source0-md5:	2de56f8b585dd1db0d4d5c64d56161d4
 URL:		http://www.nsa.gov/selinux/
 BuildRequires:	glibc-devel >= 6:2.3
 Obsoletes:	selinux-libs
@@ -91,8 +87,6 @@ Narzêdzia SELinux.
 
 %prep
 %setup -q
-%patch0 -p1
-%patch1 -p1
 
 %build
 %{__make} \
