@@ -6,7 +6,7 @@
       extern __typeof (fct) fct __asm (#internal) hidden;
 +#ifdef __alpha__
 +# define hidden_def(fct) \
-+     asm (".globl " #fct "\n.set " #fct " = " #fct "_internal");
++     asm (".globl " #fct "\n" #fct " = " #fct "_internal");
 +#else
  # define hidden_def(fct) \
       asm (".globl " #fct "\n.set " #fct ", " #fct "_internal");
