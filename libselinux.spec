@@ -114,7 +114,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc Changelog LICENSE
+%doc ChangeLog LICENSE
 %attr(755,root,root) /%{_lib}/libselinux.so.*
 
 %files devel
