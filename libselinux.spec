@@ -3,7 +3,7 @@ Summary:	SELinux library and simple utilities
 Summary(pl):	Biblioteka SELinux i proste narzêdzia
 Name:		libselinux
 Version:	1.17.13
-Release:	2
+Release:	3
 Epoch:		0
 License:	Public domain (uncopyrighted)
 Group:		Libraries
