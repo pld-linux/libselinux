@@ -3,6 +3,7 @@ Summary(pl):	Biblioteka SELinux i proste narzêdzia
 Name:		libselinux
 Version:	1.6
 Release:	1
+Epoch:		0
 License:	Public domain (uncopyrighted)
 Group:		Libraries
 Source0:	http://www.nsa.gov/selinux/archives/%{name}-%{version}.tgz
@@ -52,7 +53,7 @@ które u¿ywaj± API SELinux.
 Summary:	Header files and devel documentation
 Summary(pl):	Pliki nag³ówkowe i dokumentacja programistyczna
 Group:		Development/Libraries
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name} = %{epoch}:%{version}-%{release}
 Obsoletes:	selinux-libs-devel
 
 %description devel
@@ -65,7 +66,7 @@ Pliki nag³ówkowe i dokumentacja programistyczna bibliotek SELinux.
 Summary:	Static SELinux library
 Summary(pl):	Biblioteki statyczne SELinux
 Group:		Development/Libraries
-Requires:	%{name}-devel = %{version}-%{release}
+Requires:	%{name}-devel = %{epoch}:%{version}-%{release}
 Obsoletes:	selinux-static
 
 %description static
@@ -78,7 +79,7 @@ Biblioteki statyczne SELinux.
 Summary:	SELinux utils
 Summary(pl):	Narzêdzia SELinux
 Group:		Applications/System
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name} = %{epoch}:%{version}-%{release}
 Obsoletes:	selinux-utils
 
 %description utils
