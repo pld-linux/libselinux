@@ -9,6 +9,7 @@ Source0:	http://www.nsa.gov/selinux/lk/%{name}-%{version}.tgz
 Patch0:		%{name}-makefile.patch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 BuildRequires:	attr-devel
+Provides:	libselinux.so
 Obsoletes:	selinux-libs
 
 %description
