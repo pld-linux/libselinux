@@ -1,14 +1,13 @@
 Summary:	SELinux library and simple utilities
 Summary(pl):	Biblioteka SELinux i proste narzêdzia
 Name:		libselinux
-Version:	1.18
-Release:	2
+Version:	1.20
+Release:	1
 Epoch:		0
 License:	Public Domain
 Group:		Libraries
-#Source0Download: http://www.nsa.gov/selinux/code/download5.cfm
 Source0:	http://www.nsa.gov/selinux/archives/%{name}-%{version}.tgz
-# Source0-md5:	2de56f8b585dd1db0d4d5c64d56161d4
+# Source0-md5:	a33e6010f8e1a22c5d1c013dc6bf893a
 URL:		http://www.nsa.gov/selinux/
 BuildRequires:	glibc-devel >= 6:2.3
 Obsoletes:	selinux-libs
@@ -96,7 +95,6 @@ Narzêdzia SELinux.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir},%{_includedir},/%{_lib}}
 
 %{__make} install \
 	LIBDIR="$RPM_BUILD_ROOT%{_libdir}" \
@@ -130,5 +128,5 @@ rm -rf $RPM_BUILD_ROOT
 
 %files utils
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/*
+%attr(755,root,root) %{_sbindir}/*
 %{_mandir}/man8/*.8*
