@@ -6,8 +6,9 @@ Release:	1
 Epoch:		0
 License:	Public domain (uncopyrighted)
 Group:		Libraries
-Source0:	http://www.nsa.gov/selinux/archives/%{name}-%{version}.tgz
+Source0:	%{name}-%{version}.tgz
 # Source0-md5:	d58a9f339eba75273cb05034196c68ee
+#Source0:	http://www.nsa.gov/selinux/archives/%{name}-%{version}.tgz
 Patch0:		%{name}-rhat.patch
 URL:		http://www.nsa.gov/selinux/
 BuildRequires:	glibc-devel >= 6:2.3
