@@ -5,6 +5,7 @@ Version:	1.0
 Release:	1
 License:	Public domain (uncopyrighted)
 Group:		Libraries
+# Source0-md5:	68ad918dd3d7fd3d4dc49b3a0715743c
 Source0:	http://www.nsa.gov/selinux/lk/%{name}-%{version}.tgz
 Patch0:		%{name}-makefile.patch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
