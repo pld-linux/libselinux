@@ -6,6 +6,7 @@ Release:	2
 Epoch:		0
 License:	Public Domain
 Group:		Libraries
+#Source0Download: http://www.nsa.gov/selinux/code/download5.cfm
 Source0:	http://www.nsa.gov/selinux/archives/%{name}-%{version}.tgz
 # Source0-md5:	2de56f8b585dd1db0d4d5c64d56161d4
 URL:		http://www.nsa.gov/selinux/
