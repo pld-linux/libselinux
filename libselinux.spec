@@ -2,7 +2,7 @@ Summary:	SELinux library and simple utilities
 Summary(pl):	Biblioteka SELinux i proste narzêdzia
 Name:		libselinux
 Version:	1.4
-Release:	3
+Release:	4
 License:	Public domain (uncopyrighted)
 Group:		Libraries
 Source0:	http://www.nsa.gov/selinux/archives/%{name}-%{version}.tgz
@@ -10,10 +10,14 @@ Source0:	http://www.nsa.gov/selinux/archives/%{name}-%{version}.tgz
 Patch0:		%{name}-getpeercon.patch
 Patch1:		%{name}-mntpoint.patch
 Patch2:		%{name}-rhat.patch
+Patch3:		%{name}-getpwnam.patch
+Patch4:		%{name}-rootok.patch
 URL:		http://www.nsa.gov/selinux/
 BuildRequires:	glibc-devel >= 6:2.3
 Obsoletes:	selinux-libs
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+%define		_bindir		/bin
 
 %description
 Security-enhanced Linux is a patch of the Linux kernel and a number
@@ -92,6 +96,8 @@ Narzêdzia SELinux.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
+%patch4 -p1
 
 %build
 %{__make} \
