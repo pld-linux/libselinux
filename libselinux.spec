@@ -35,12 +35,12 @@ decisions. Required for any applications that use the SELinux API.
 Security-enhanced Linux jest prototypem j±dra Linuksa i wielu
 aplikacji u¿ytkowych o funkcjach podwy¿szonego bezpieczeñstwa.
 Zaprojektowany jest tak, aby w prosty sposób ukazaæ znaczenie
-mandatowej kontroli dostêpu dla spo³eczno¶ci Linuksowej. Ukazuje
+obowi±zkowej kontroli dostêpu dla spo³eczno¶ci Linuksowej. Ukazuje
 równie¿ jak tak± kontrolê mo¿na dodaæ do istniej±cego systemu typu
 Linux. J±dro SELinux zawiera nowe sk³adniki architektury pierwotnie
 opracowane w celu ulepszenia bezpieczeñstwa systemu operacyjnego
 Flask. Te elementy zapewniaj± ogólne wsparcie we wdra¿aniu wielu typów
-polityk mandatowej kontroli dostêpu, w³±czaj±c te wzorowane na: Type
+polityk obowi±zkowej kontroli dostêpu, w³±czaj±c te wzorowane na: Type
 Enforcement (TE), kontroli dostêpu opartej na rolach (RBAC) i
 zabezpieczeniach wielopoziomowych.
 
