@@ -2,11 +2,14 @@ Summary:	SELinux library and simple utilities
 Summary(pl):	Biblioteka SELinux i proste narzêdzia
 Name:		libselinux
 Version:	1.4
-Release:	1
+Release:	2
 License:	Public domain (uncopyrighted)
 Group:		Libraries
 Source0:	http://www.nsa.gov/selinux/archives/%{name}-%{version}.tgz
 # Source0-md5:	2bc6be58ffc698e997c15a33777ebfe8
+Patch0:		%{name}-getpeercon.patch
+Patch1:		%{name}-mntpoint.patch
+Patch2:		%{name}-rhat.patch
 Obsoletes:	selinux-libs
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -84,6 +87,9 @@ Narzêdzia SELinux.
 
 %prep
 %setup -q
+%patch0 -p1
+%patch1 -p1
+%patch2 -p1
 
 %build
 %{__make} \
