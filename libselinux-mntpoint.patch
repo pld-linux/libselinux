@@ -281,6 +281,34 @@
  	if (fd < 0)
  		return -1;
  
+--- libselinux-1.4/src/enabled.c.mntpoint	2003-11-20 09:28:38.000000000 -0500
++++ libselinux-1.4/src/enabled.c	2003-12-17 16:37:25.000000000 -0500
+@@ -17,18 +17,22 @@
+ 
+ 	fd = open("/proc/filesystems", O_RDONLY);
+ 	if (fd < 0)
+-		return 0;
++		return -1;
+ 
+ 	size = PAGE_SIZE;
+ 	buf = malloc(size);
+-	if (!buf)
++	if (!buf) {
++		enabled = -1;
+ 		goto out;
++	}
+ 		
+ 	memset(buf, 0, size);
+ 
+ 	ret = read(fd, buf, size - 1);
+-	if (ret < 0)
++	if (ret < 0) {
++		enabled = -1;
+ 		goto out2;
++	}
+ 
+ 	if (!strstr(buf, "selinuxfs"))
+ 		goto out2;
 --- libselinux-1.4/include/selinux/selinux.h.mntpoint	2003-12-17 17:09:17.000000000 -0500
 +++ libselinux-1.4/include/selinux/selinux.h	2003-12-17 17:09:43.000000000 -0500
 @@ -122,6 +122,7 @@

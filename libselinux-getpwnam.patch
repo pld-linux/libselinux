@@ -1,0 +1,66 @@
+Index: libselinux/src/get_context_list.c
+===================================================================
+RCS file: /nfshome/pal/CVS/selinux-usr/libselinux/src/get_context_list.c,v
+retrieving revision 1.8
+retrieving revision 1.10
+diff -u -r1.8 -r1.10
+--- libselinux/src/get_context_list.c	1 Dec 2003 19:28:32 -0000	1.8
++++ libselinux/src/get_context_list.c	14 Jan 2004 14:06:52 -0000	1.10
+@@ -206,26 +206,50 @@
+     FILE *config_file;    /* The configuration file                    */
+     char *fname = 0;      /* The name of the user's configuration file */
+     size_t fname_len;     /* The length of fname                       */
+-    struct passwd *pwd;   /* The user's passwd structure               */
++    struct passwd pwdbuf, *pwd = &pwdbuf;   
++    char *buf;
+     int retval;           /* The return value                          */
++    long buflen;
+ 
+     if (which == USERPRIORITY)
+     {
+-        /* Get the password structure in order to find the home directory */
+-        pwd = getpwnam (user);
+-        if (!pwd)
+-        {
+-            return -1;
++        /* Get the password structure in order to find the home directory.
++	   Use getpwnam_r to avoid clobbering any existing pwd struct obtained
++	   by the caller. */
++	buflen = sysconf(_SC_GETPW_R_SIZE_MAX);
++	if (buflen < 0)
++		return -1;
++	buf = malloc(buflen);
++	if (!buf)
++		return -1;
++	retval = getpwnam_r (user, pwd, buf, buflen, &pwd );
++	while (retval < 0 && errno == ERANGE) {
++		char *newbuf;
++		errno = 0;
++		buflen *= 2;
++		newbuf = realloc (buf, buflen);
++		if (!newbuf) {
++			free(buf);
++			return -1;
++		}
++		buf = newbuf;
++		retval = getpwnam_r (user, pwd, buf, buflen, &pwd );
++	}
++        if (retval < 0 || !pwd) {
++		free(buf);
++		return -1;
+         }
+         fname_len = strlen (pwd->pw_dir) + 20;
+         fname = malloc (fname_len);
+-        if (!fname)
++        if (!fname) 
+         {
++	    free(buf);
+             return -1;
+         }
+         sprintf (fname, "%s%s", pwd->pw_dir, "/.default_contexts");
+         config_file = fopen (fname, "r");
+ 	free (fname);
++        free(buf);
+     }
+     else if (which == SYSTEMPRIORITY)
+     {
