@@ -9,6 +9,7 @@ Source0:	http://www.nsa.gov/selinux/lk/%{name}-%{version}.tgz
 Patch0:		%{name}-makefile.patch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 BuildRequires:	attr-devel
+Obsoletes:	selinux-libs
 
 %description
 Security-enhanced Linux is a patch of the Linux kernel and a number
@@ -47,6 +48,7 @@ Summary:        Header files and devel documentation
 Summary(pl):    Pliki nag³ówkowe i dokumentacja developerska
 Group:          Development/Libraries
 Requires:       %{name} = %{version}
+Obsoletes:	selinux-libs-devel
 
 %description devel
 Header files and devel documentation for SELinux libraries.
@@ -59,6 +61,7 @@ Summary:        Static SELinux library
 Summary(pl):    Biblioteki statyczne SELinux
 Group:          Development/Libraries
 Requires:       %{name}-devel = %{version}
+Obsoletes:	selinux-static
 
 %description static
 SELinux static libraries.
@@ -71,6 +74,7 @@ Summary:        SELinux utils
 Summary(pl):    Narzêdzia SELinux
 Group:          Applications/System
 Requires:       %{name} = %{version}
+Obsoletes:	selinux-utils
 
 %description utils
 SELinux utils.
