@@ -1,13 +1,13 @@
 Summary:	SELinux library and simple utilities
 Summary(pl):	Biblioteka SELinux i proste narzêdzia
 Name:		libselinux
-Version:	1.8
+Version:	1.10
 Release:	1
 Epoch:		0
 License:	Public domain (uncopyrighted)
 Group:		Libraries
 Source0:	http://www.nsa.gov/selinux/archives/%{name}-%{version}.tgz
-# Source0-md5:	0d3f5e1b1132e582f0867300c9ebfab4
+# Source0-md5:	7278775d499f13e66eb55f0e6dd6707d
 Patch0:		%{name}-rhat.patch
 URL:		http://www.nsa.gov/selinux/
 BuildRequires:	glibc-devel >= 6:2.3
