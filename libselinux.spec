@@ -2,7 +2,7 @@ Summary:	SELinux library and simple utilities
 Summary(pl):	Biblioteka SELinux i proste narzêdzia
 Name:		libselinux
 Version:	1.4
-Release:	2
+Release:	3
 License:	Public domain (uncopyrighted)
 Group:		Libraries
 Source0:	http://www.nsa.gov/selinux/archives/%{name}-%{version}.tgz
