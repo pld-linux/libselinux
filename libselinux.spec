@@ -46,10 +46,10 @@ bezpieczeñstwa. Bibilioteka jest wymagana przez wszystkie aplikacje,
 które u¿ywaj± API SELinux.
 
 %package devel
-Summary:        Header files and devel documentation
-Summary(pl):    Pliki nag³ówkowe i dokumentacja programistyczna
-Group:          Development/Libraries
-Requires:       %{name} = %{version}
+Summary:	Header files and devel documentation
+Summary(pl):	Pliki nag³ówkowe i dokumentacja programistyczna
+Group:		Development/Libraries
+Requires:	%{name} = %{version}
 Obsoletes:	selinux-libs-devel
 
 %description devel
@@ -59,10 +59,10 @@ Header files and devel documentation for SELinux libraries.
 Pliki nag³ówkowe i dokumentacja programistyczna bibliotek SELinux.
 
 %package static
-Summary:        Static SELinux library
-Summary(pl):    Biblioteki statyczne SELinux
-Group:          Development/Libraries
-Requires:       %{name}-devel = %{version}
+Summary:	Static SELinux library
+Summary(pl):	Biblioteki statyczne SELinux
+Group:		Development/Libraries
+Requires:	%{name}-devel = %{version}
 Obsoletes:	selinux-static
 
 %description static
@@ -72,10 +72,10 @@ SELinux static libraries.
 Biblioteki statyczne SELinux.
 
 %package utils
-Summary:        SELinux utils
-Summary(pl):    Narzêdzia SELinux
-Group:          Applications/System
-Requires:       %{name} = %{version}
+Summary:	SELinux utils
+Summary(pl):	Narzêdzia SELinux
+Group:		Applications/System
+Requires:	%{name} = %{version}
 Obsoletes:	selinux-utils
 
 %description utils
