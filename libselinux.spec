@@ -1,15 +1,14 @@
 Summary:	SELinux library and simple utilities
 Summary(pl):	Biblioteka SELinux i proste narzêdzia
 Name:		libselinux
-Version:	1.2
+Version:	1.4
 Release:	1
 License:	Public domain (uncopyrighted)
 Group:		Libraries
 Source0:	http://www.nsa.gov/selinux/archives/%{name}-%{version}.tgz
-# Source0-md5:	f8a568affa7da710ca3218f034daf583
-BuildRequires:	attr-devel
-BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+# Source0-md5:	2bc6be58ffc698e997c15a33777ebfe8
 Obsoletes:	selinux-libs
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 Security-enhanced Linux is a patch of the Linux kernel and a number
@@ -98,6 +97,10 @@ install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir},%{_includedir}}
 %{__make} install \
 	DESTDIR="$RPM_BUILD_ROOT"
 
+# make symlink across / absolute
+ln -sf /lib/$(cd $RPM_BUILD_ROOT/lib ; echo libselinux.so.*) \
+	$RPM_BUILD_ROOT%{_libdir}/libselinux.so
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -106,11 +109,11 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libselinux.so.*
+%attr(755,root,root) /%{_lib}/libselinux.so.*
 
 %files devel
 %defattr(644,root,root,755)
-%{_libdir}/libselinux.so
+%attr(755,root,root) %{_libdir}/libselinux.so
 %{_includedir}/selinux
 
 %files static
