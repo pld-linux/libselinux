@@ -1,20 +1,18 @@
 Summary:	SELinux library and simple utilities
 Summary(pl):	Biblioteka SELinux i proste narzêdzia
 Name:		libselinux
-Version:	1.16
+Version:	1.17.13
 Release:	1
 Epoch:		0
 License:	Public domain (uncopyrighted)
 Group:		Libraries
 Source0:	http://www.nsa.gov/selinux/archives/%{name}-%{version}.tgz
-# Source0-md5:	0dfa39b41834904e58db14ddb881abb9
+# Source0-md5:	d58a9f339eba75273cb05034196c68ee
 Patch0:		%{name}-rhat.patch
 URL:		http://www.nsa.gov/selinux/
 BuildRequires:	glibc-devel >= 6:2.3
 Obsoletes:	selinux-libs
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-
-%define		_bindir		/bin
 
 %description
 Security-enhanced Linux is a patch of the Linux kernel and a number
