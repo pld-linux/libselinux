@@ -92,13 +92,15 @@ Narzêdzia SELinux.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir},%{_includedir}}
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir},%{_includedir},/%{_lib}}
 
 %{__make} install \
+	LIBDIR="$RPM_BUILD_ROOT%{_libdir}" \
+	SHLIBDIR="$RPM_BUILD_ROOT/%{_lib}" \
 	DESTDIR="$RPM_BUILD_ROOT"
 
 # make symlink across / absolute
-ln -sf /lib/$(cd $RPM_BUILD_ROOT/lib ; echo libselinux.so.*) \
+ln -sf /%{_lib}/$(cd $RPM_BUILD_ROOT/%{_lib} ; echo libselinux.so.*) \
 	$RPM_BUILD_ROOT%{_libdir}/libselinux.so
 
 %clean
