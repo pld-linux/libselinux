@@ -1,17 +1,13 @@
 Summary:	SELinux library and simple utilities
 Summary(pl):	Biblioteka SELinux i proste narzêdzia
 Name:		libselinux
-Version:	1.4
-Release:	4
+Version:	1.6
+Release:	1
 License:	Public domain (uncopyrighted)
 Group:		Libraries
 Source0:	http://www.nsa.gov/selinux/archives/%{name}-%{version}.tgz
-# Source0-md5:	2bc6be58ffc698e997c15a33777ebfe8
-Patch0:		%{name}-getpeercon.patch
-Patch1:		%{name}-mntpoint.patch
-Patch2:		%{name}-rhat.patch
-Patch3:		%{name}-getpwnam.patch
-Patch4:		%{name}-rootok.patch
+# Source0-md5:	40b06c536479e28d7ad910b8ef536152
+Patch0:		%{name}-rhat.patch
 URL:		http://www.nsa.gov/selinux/
 BuildRequires:	glibc-devel >= 6:2.3
 Obsoletes:	selinux-libs
@@ -56,7 +52,7 @@ które u¿ywaj± API SELinux.
 Summary:	Header files and devel documentation
 Summary(pl):	Pliki nag³ówkowe i dokumentacja programistyczna
 Group:		Development/Libraries
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 Obsoletes:	selinux-libs-devel
 
 %description devel
@@ -69,7 +65,7 @@ Pliki nag³ówkowe i dokumentacja programistyczna bibliotek SELinux.
 Summary:	Static SELinux library
 Summary(pl):	Biblioteki statyczne SELinux
 Group:		Development/Libraries
-Requires:	%{name}-devel = %{version}
+Requires:	%{name}-devel = %{version}-%{release}
 Obsoletes:	selinux-static
 
 %description static
@@ -82,7 +78,7 @@ Biblioteki statyczne SELinux.
 Summary:	SELinux utils
 Summary(pl):	Narzêdzia SELinux
 Group:		Applications/System
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 Obsoletes:	selinux-utils
 
 %description utils
@@ -94,10 +90,6 @@ Narzêdzia SELinux.
 %prep
 %setup -q
 %patch0 -p1
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
 
 %build
 %{__make} \
