@@ -1,13 +1,12 @@
 Summary:	SELinux library and simple utilities
 Summary(pl):	Biblioteka SELinux i proste narzêdzia
 Name:		libselinux
-Version:	1.0
+Version:	1.2
 Release:	1
 License:	Public domain (uncopyrighted)
 Group:		Libraries
-# Source0-md5:	68ad918dd3d7fd3d4dc49b3a0715743c
-Source0:	http://www.nsa.gov/selinux/lk/%{name}-%{version}.tgz
-Patch0:		%{name}-makefile.patch
+Source0:	http://www.nsa.gov/selinux/archives/%{name}-%{version}.tgz
+# Source0-md5:	f8a568affa7da710ca3218f034daf583
 BuildRequires:	attr-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	selinux-libs
@@ -86,12 +85,11 @@ Narzêdzia SELinux.
 
 %prep
 %setup -q
-%patch0 -p1
 
 %build
 %{__make} \
 	CC="%{__cc}" \
-	OPTFLAGS="%{rpmcflags}"
+	CFLAGS="%{rpmcflags}"
 
 %install
 rm -rf $RPM_BUILD_ROOT
