@@ -124,7 +124,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libselinux.so
 %{_includedir}/selinux
-%{_mandir}/man3
+%{_mandir}/man3/*.3*
 
 %files static
 %defattr(644,root,root,755)
@@ -133,4 +133,4 @@ rm -rf $RPM_BUILD_ROOT
 %files utils
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/*
-%{_mandir}/man8
+%{_mandir}/man8/*.8*
