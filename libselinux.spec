@@ -10,6 +10,7 @@ Source0:	http://www.nsa.gov/selinux/archives/%{name}-%{version}.tgz
 Patch0:		%{name}-getpeercon.patch
 Patch1:		%{name}-mntpoint.patch
 Patch2:		%{name}-rhat.patch
+URL:		http://www.nsa.gov/selinux/
 BuildRequires:	glibc-devel >= 6:2.3
 Obsoletes:	selinux-libs
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
