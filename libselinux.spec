@@ -4,7 +4,7 @@ Name:		libselinux
 Version:	1.18
 Release:	1
 Epoch:		0
-License:	Public domain (uncopyrighted)
+License:	Public Domain
 Group:		Libraries
 Source0:	http://www.nsa.gov/selinux/archives/%{name}-%{version}.tgz
 # Source0-md5:	2de56f8b585dd1db0d4d5c64d56161d4
