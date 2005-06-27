@@ -1,13 +1,13 @@
 Summary:	SELinux library and simple utilities
 Summary(pl):	Biblioteka SELinux i proste narzêdzia
 Name:		libselinux
-Version:	1.22
+Version:	1.24
 Release:	1
 Epoch:		0
 License:	Public Domain
 Group:		Libraries
 Source0:	http://www.nsa.gov/selinux/archives/%{name}-%{version}.tgz
-# Source0-md5:	43b7640652d1fd85e6ab3df9b873ddd3
+# Source0-md5:	319679755cdd2c8843c596c0631b7afd
 URL:		http://www.nsa.gov/selinux/
 BuildRequires:	glibc-devel >= 6:2.3
 Obsoletes:	selinux-libs
