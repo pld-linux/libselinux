@@ -1,14 +1,13 @@
 Summary:	SELinux library and simple utilities
 Summary(pl):	Biblioteka SELinux i proste narzêdzia
 Name:		libselinux
-Version:	1.25.2
+Version:	1.26
 Release:	1
 Epoch:		0
 License:	Public Domain
 Group:		Libraries
-# Source0:	http://www.nsa.gov/selinux/archives/%{name}-%{version}.tgz
-Source0:	%{name}-%{version}.tgz
-# Source0-md5:	5f639f125d663ed859d91c570472f3e5
+Source0:	http://www.nsa.gov/selinux/archives/%{name}-%{version}.tgz
+# Source0-md5:	f562bd9b52376606f971bbf08b09921f
 URL:		http://www.nsa.gov/selinux/
 BuildRequires:	glibc-devel >= 6:2.3
 Obsoletes:	selinux-libs
