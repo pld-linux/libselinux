@@ -2,7 +2,7 @@ Summary:	SELinux library and simple utilities
 Summary(pl):	Biblioteka SELinux i proste narzêdzia
 Name:		libselinux
 Version:	1.26
-Release:	1
+Release:	2
 Epoch:		0
 License:	Public Domain
 Group:		Libraries
@@ -11,6 +11,7 @@ Source0:	http://www.nsa.gov/selinux/archives/%{name}-%{version}.tgz
 URL:		http://www.nsa.gov/selinux/
 BuildRequires:	glibc-devel >= 6:2.3
 Obsoletes:	selinux-libs
+Conflicts	SysVinit < 2.86-4
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
