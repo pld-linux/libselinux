@@ -11,7 +11,7 @@ Source0:	http://www.nsa.gov/selinux/archives/%{name}-%{version}.tgz
 URL:		http://www.nsa.gov/selinux/
 BuildRequires:	glibc-devel >= 6:2.3
 Obsoletes:	selinux-libs
-Conflicts	SysVinit < 2.86-4
+Conflicts:	SysVinit < 2.86-4
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
