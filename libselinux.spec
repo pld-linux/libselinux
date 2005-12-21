@@ -1,15 +1,18 @@
 Summary:	SELinux library and simple utilities
 Summary(pl):	Biblioteka SELinux i proste narzêdzia
 Name:		libselinux
-Version:	1.26
-Release:	2
+Version:	1.28
+Release:	1
 Epoch:		0
 License:	Public Domain
 Group:		Libraries
 Source0:	http://www.nsa.gov/selinux/archives/%{name}-%{version}.tgz
-# Source0-md5:	f562bd9b52376606f971bbf08b09921f
+# Source0-md5:	7e121e125b52913237df458ff610e983
 URL:		http://www.nsa.gov/selinux/
 BuildRequires:	glibc-devel >= 6:2.3
+BuildRequires:	libsepol-devel >= 1.10
+BuildRequires:	rpm-pythonprov
+Requires:	libsepol >= 1.10
 Obsoletes:	selinux-libs
 Conflicts:	SysVinit < 2.86-4
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -86,6 +89,18 @@ SELinux utils.
 %description utils -l pl
 Narzêdzia SELinux.
 
+%package -n python-selinux
+Summary:	Python binding for SELinux library
+Summary(pl):	Wi±zania Pythona do biblioteki SELinux
+Group:		Libraries/Python
+Requires:	%{name} = %{epoch}:%{version}-%{release}
+
+%description -n python-selinux
+Python binding for SELinux library.
+
+%description -n python-selinux -l pl
+Wi±zania Pythona do biblioteki SELinux.
+
 %prep
 %setup -q
 
@@ -131,3 +146,8 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_sbindir}/*
 %{_mandir}/man8/*.8*
+
+%files -n python-selinux
+%defattr(644,root,root,755)
+%attr(755,root,root) %{py_sitedir}/_selinux.so
+%{py_sitedir}/selinux.py
