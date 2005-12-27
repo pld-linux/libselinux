@@ -1,8 +1,12 @@
+#
+# Conditional build:
+%bcond_without	python
+#
 Summary:	SELinux library and simple utilities
 Summary(pl):	Biblioteka SELinux i proste narzêdzia
 Name:		libselinux
 Version:	1.28
-Release:	1
+Release:	2
 Epoch:		0
 License:	Public Domain
 Group:		Libraries
@@ -11,7 +15,8 @@ Source0:	http://www.nsa.gov/selinux/archives/%{name}-%{version}.tgz
 URL:		http://www.nsa.gov/selinux/
 BuildRequires:	glibc-devel >= 6:2.3
 BuildRequires:	libsepol-devel >= 1.10
-BuildRequires:	rpm-pythonprov
+%{?with_python:BuildRequires:	python-devel}
+%{?with_python:BuildRequires:	rpm-pythonprov}
 Requires:	libsepol >= 1.10
 Obsoletes:	selinux-libs
 Conflicts:	SysVinit < 2.86-4
@@ -107,7 +112,9 @@ Wi±zania Pythona do biblioteki SELinux.
 %build
 %{__make} \
 	CC="%{__cc}" \
-	CFLAGS="%{rpmcflags} -D_FILE_OFFSET_BITS=64"
+	CFLAGS="%{rpmcflags} -D_FILE_OFFSET_BITS=64" \
+	LIBDIR=%{_libdir} \
+	%{!?with_python:SWIGSO=}
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -115,7 +122,8 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	LIBDIR="$RPM_BUILD_ROOT%{_libdir}" \
 	SHLIBDIR="$RPM_BUILD_ROOT/%{_lib}" \
-	DESTDIR="$RPM_BUILD_ROOT"
+	DESTDIR="$RPM_BUILD_ROOT" \
+	%{!?with_python:SWIGSO= SWIGFILES="-d"}
 
 # make symlink across / absolute
 ln -sf /%{_lib}/$(cd $RPM_BUILD_ROOT/%{_lib} ; echo libselinux.so.*) \
@@ -147,7 +155,9 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_sbindir}/*
 %{_mandir}/man8/*.8*
 
+%if %{with python}
 %files -n python-selinux
 %defattr(644,root,root,755)
 %attr(755,root,root) %{py_sitedir}/_selinux.so
 %{py_sitedir}/selinux.py
+%endif
