@@ -5,19 +5,19 @@
 Summary:	SELinux library and simple utilities
 Summary(pl):	Biblioteka SELinux i proste narzêdzia
 Name:		libselinux
-Version:	1.28
-Release:	2
+Version:	1.30
+Release:	1
 Epoch:		0
 License:	Public Domain
 Group:		Libraries
 Source0:	http://www.nsa.gov/selinux/archives/%{name}-%{version}.tgz
-# Source0-md5:	7e121e125b52913237df458ff610e983
+# Source0-md5:	0b7d269c9b7d847059e4b11a710ab404
 URL:		http://www.nsa.gov/selinux/
 BuildRequires:	glibc-devel >= 6:2.3
-BuildRequires:	libsepol-devel >= 1.10
+BuildRequires:	libsepol-devel >= 1.12
 %{?with_python:BuildRequires:	python-devel}
 %{?with_python:BuildRequires:	rpm-pythonprov}
-Requires:	libsepol >= 1.10
+Requires:	libsepol >= 1.12
 Obsoletes:	selinux-libs
 Conflicts:	SysVinit < 2.86-4
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -110,20 +110,18 @@ Wi±zania Pythona do biblioteki SELinux.
 %setup -q
 
 %build
-%{__make} \
+%{__make} all %{?with_python:pywrap} \
 	CC="%{__cc}" \
 	CFLAGS="%{rpmcflags} -D_FILE_OFFSET_BITS=64" \
-	LIBDIR=%{_libdir} \
-	%{!?with_python:SWIGSO=}
+	LIBDIR=%{_libdir}
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%{__make} install \
+%{__make} install %{?with_python:install-pywrap} \
 	LIBDIR="$RPM_BUILD_ROOT%{_libdir}" \
 	SHLIBDIR="$RPM_BUILD_ROOT/%{_lib}" \
-	DESTDIR="$RPM_BUILD_ROOT" \
-	%{!?with_python:SWIGSO= SWIGFILES="-d"}
+	DESTDIR="$RPM_BUILD_ROOT"
 
 # make symlink across / absolute
 ln -sf /%{_lib}/$(cd $RPM_BUILD_ROOT/%{_lib} ; echo libselinux.so.*) \
