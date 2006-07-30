@@ -112,6 +112,7 @@ Wi±zania Pythona do biblioteki SELinux.
 %build
 %{__make} all %{?with_python:pywrap} \
 	CC="%{__cc}" \
+	LDFLAGS="%{rpmldflags}" \
 	CFLAGS="%{rpmcflags} -D_FILE_OFFSET_BITS=64" \
 	LIBDIR=%{_libdir}
 
