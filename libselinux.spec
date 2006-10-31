@@ -5,19 +5,20 @@
 Summary:	SELinux library and simple utilities
 Summary(pl):	Biblioteka SELinux i proste narzêdzia
 Name:		libselinux
-Version:	1.30
+Version:	1.32
 Release:	1
 Epoch:		0
 License:	Public Domain
 Group:		Libraries
 Source0:	http://www.nsa.gov/selinux/archives/%{name}-%{version}.tgz
-# Source0-md5:	0b7d269c9b7d847059e4b11a710ab404
+# Source0-md5:	eac812a6f35e0e04ddad307abd21d014
 URL:		http://www.nsa.gov/selinux/
 BuildRequires:	glibc-devel >= 6:2.3
-BuildRequires:	libsepol-devel >= 1.12
+BuildRequires:	libsepol-devel >= 1.14
 %{?with_python:BuildRequires:	python-devel}
 %{?with_python:BuildRequires:	rpm-pythonprov}
-Requires:	libsepol >= 1.12
+BuildRequires:	sed >= 4.0
+Requires:	libsepol >= 1.14
 Obsoletes:	selinux-libs
 Conflicts:	SysVinit < 2.86-4
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -108,6 +109,10 @@ Wi±zania Pythona do biblioteki SELinux.
 
 %prep
 %setup -q
+
+# "-z defs" doesn't mix with --as-needed when some object needs symbols from
+# ld.so (because of __thread variable in this case)
+sed -i -e 's/-z,defs,//' src/Makefile
 
 %build
 %{__make} all %{?with_python:pywrap} \
