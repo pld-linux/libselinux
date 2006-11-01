@@ -18,6 +18,7 @@ BuildRequires:	libsepol-devel >= 1.14
 %{?with_python:BuildRequires:	python-devel}
 %{?with_python:BuildRequires:	rpm-pythonprov}
 BuildRequires:	sed >= 4.0
+%{?with_python:BuildRequires:	swig-python}
 Requires:	libsepol >= 1.14
 Obsoletes:	selinux-libs
 Conflicts:	SysVinit < 2.86-4
