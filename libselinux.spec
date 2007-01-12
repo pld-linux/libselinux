@@ -12,6 +12,7 @@ License:	Public Domain
 Group:		Libraries
 Source0:	http://www.nsa.gov/selinux/archives/%{name}-%{version}.tgz
 # Source0-md5:	eac812a6f35e0e04ddad307abd21d014
+Patch0:		%{name}-vcontext-selinux.patch
 URL:		http://www.nsa.gov/selinux/
 BuildRequires:	glibc-devel >= 6:2.3
 BuildRequires:	libsepol-devel >= 1.14
@@ -110,6 +111,7 @@ Wi±zania Pythona do biblioteki SELinux.
 
 %prep
 %setup -q
+%patch0 -p1
 
 # "-z defs" doesn't mix with --as-needed when some object needs symbols from
 # ld.so (because of __thread variable in this case)
