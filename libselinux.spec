@@ -13,6 +13,7 @@ Group:		Libraries
 Source0:	http://www.nsa.gov/selinux/archives/%{name}-%{version}.tgz
 # Source0-md5:	eac812a6f35e0e04ddad307abd21d014
 Patch0:		%{name}-vcontext-selinux.patch
+Patch1:		%{name}-thread.patch
 URL:		http://www.nsa.gov/selinux/
 BuildRequires:	glibc-devel >= 6:2.3
 BuildRequires:	libsepol-devel >= 1.14
@@ -112,6 +113,9 @@ Wi±zania Pythona do biblioteki SELinux.
 %prep
 %setup -q
 %patch0 -p1
+%ifarch sparc sparc32 sparc64
+%patch1 -p1
+%endif
 
 # "-z defs" doesn't mix with --as-needed when some object needs symbols from
 # ld.so (because of __thread variable in this case)
@@ -122,7 +126,8 @@ sed -i -e 's/-z,defs,//' src/Makefile
 	CC="%{__cc}" \
 	LDFLAGS="%{rpmldflags}" \
 	CFLAGS="%{rpmcflags} -D_FILE_OFFSET_BITS=64" \
-	LIBDIR=%{_libdir}
+	LIBDIR=%{_libdir} \
+	TLSFLAGS=""
 
 %install
 rm -rf $RPM_BUILD_ROOT
