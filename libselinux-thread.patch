@@ -1,0 +1,30 @@
+diff -urp libselinux-1.32/src/matchpathcon.c libselinux-1.32./src/matchpathcon.c
+--- libselinux-1.32/src/matchpathcon.c	2006-06-29 20:21:04.000000000 +0200
++++ libselinux-1.32./src/matchpathcon.c	2007-01-16 01:50:45.000000000 +0100
+@@ -76,7 +76,7 @@ void set_matchpathcon_canoncon(int (*f) 
+ 		mycanoncon = &default_canoncon;
+ }
+ 
+-static __thread unsigned int myflags;
++static unsigned int myflags;
+ 
+ void set_matchpathcon_flags(unsigned int flags)
+ {
+diff -urp libselinux-1.32/src/setrans_client.c libselinux-1.32./src/setrans_client.c
+--- libselinux-1.32/src/setrans_client.c	2006-09-29 17:29:43.000000000 +0200
++++ libselinux-1.32./src/setrans_client.c	2007-01-16 01:51:02.000000000 +0100
+@@ -19,10 +19,10 @@
+ static int mls_enabled = -1;
+ 
+ // Simple cache
+-static __thread security_context_t prev_t2r_trans = NULL;
+-static __thread security_context_t prev_t2r_raw = NULL;
+-static __thread security_context_t prev_r2t_trans = NULL;
+-static __thread security_context_t prev_r2t_raw = NULL;
++static security_context_t prev_t2r_trans = NULL;
++static security_context_t prev_t2r_raw = NULL;
++static security_context_t prev_r2t_trans = NULL;
++static security_context_t prev_r2t_raw = NULL;
+ 
+ int cache_trans hidden = 1;
+ 
