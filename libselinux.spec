@@ -1,6 +1,6 @@
 #
 # Conditional build:
-%bcond_without	python
+%bcond_without	python	# python binding
 #
 Summary:	SELinux library and simple utilities
 Summary(pl):	Biblioteka SELinux i proste narzêdzia
@@ -14,6 +14,11 @@ Source0:	http://www.nsa.gov/selinux/archives/%{name}-%{version}.tgz
 # Source0-md5:	eac812a6f35e0e04ddad307abd21d014
 Patch0:		%{name}-vcontext-selinux.patch
 URL:		http://www.nsa.gov/selinux/
+%ifarch ppc ppc64 sparc sparcv9 sparc64
+BuildRequires:	gcc >= 5:3.4
+%else
+BuildRequires:	gcc >= 5:3.2
+%endif
 BuildRequires:	glibc-devel >= 6:2.3
 BuildRequires:	libsepol-devel >= 1.14
 %{?with_python:BuildRequires:	python-devel}
