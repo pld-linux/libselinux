@@ -6,7 +6,7 @@ Summary:	SELinux library and simple utilities
 Summary(pl):	Biblioteka SELinux i proste narzêdzia
 Name:		libselinux
 Version:	1.32
-Release:	1
+Release:	2
 Epoch:		0
 License:	Public Domain
 Group:		Libraries
