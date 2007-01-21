@@ -113,7 +113,7 @@ Wi±zania Pythona do biblioteki SELinux.
 %prep
 %setup -q
 %patch0 -p1
-%ifarch ppc sparc sparc32 sparc64
+%ifarch ppc sparc sparcv9 sparc64
 %patch1 -p1
 %endif
 
