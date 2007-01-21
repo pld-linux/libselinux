@@ -6,7 +6,7 @@ Summary:	SELinux library and simple utilities
 Summary(pl):	Biblioteka SELinux i proste narzêdzia
 Name:		libselinux
 Version:	1.32
-Release:	1
+Release:	2
 Epoch:		0
 License:	Public Domain
 Group:		Libraries
@@ -113,7 +113,7 @@ Wi±zania Pythona do biblioteki SELinux.
 %prep
 %setup -q
 %patch0 -p1
-%ifarch sparc sparc32 sparc64
+%ifarch ppc sparc sparc32 sparc64
 %patch1 -p1
 %endif
 
