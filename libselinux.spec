@@ -26,6 +26,7 @@ BuildRequires:	libsepol-devel >= 1.14
 BuildRequires:	sed >= 4.0
 %{?with_python:BuildRequires:	swig-python}
 Requires:	libsepol >= 1.14
+Requires:	glibc(tls)
 Obsoletes:	selinux-libs
 Conflicts:	SysVinit < 2.86-4
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
