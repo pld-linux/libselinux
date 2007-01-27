@@ -29,6 +29,7 @@ Requires:	glibc(tls)
 Requires:	libsepol >= 1.14
 Obsoletes:	selinux-libs
 Conflicts:	SysVinit < 2.86-4
+ExcludeArch:	i386
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
