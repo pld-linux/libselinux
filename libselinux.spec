@@ -3,7 +3,7 @@
 %bcond_without	python	# python binding
 #
 Summary:	SELinux library and simple utilities
-Summary(pl):	Biblioteka SELinux i proste narzêdzia
+Summary(pl.UTF-8):   Biblioteka SELinux i proste narzÄ™dzia
 Name:		libselinux
 Version:	1.34.0
 Release:	1
@@ -47,27 +47,27 @@ libselinux provides an API for SELinux applications to get and set
 process and file security contexts and to obtain security policy
 decisions. Required for any applications that use the SELinux API.
 
-%description -l pl
-Security-enhanced Linux jest prototypem j±dra Linuksa i wielu
-aplikacji u¿ytkowych o funkcjach podwy¿szonego bezpieczeñstwa.
-Zaprojektowany jest tak, aby w prosty sposób ukazaæ znaczenie
-obowi±zkowej kontroli dostêpu dla spo³eczno¶ci linuksowej. Ukazuje
-równie¿ jak tak± kontrolê mo¿na dodaæ do istniej±cego systemu typu
-Linux. J±dro SELinux zawiera nowe sk³adniki architektury pierwotnie
-opracowane w celu ulepszenia bezpieczeñstwa systemu operacyjnego
-Flask. Te elementy zapewniaj± ogólne wsparcie we wdra¿aniu wielu 
-typów polityk obowi±zkowej kontroli dostêpu, w³±czaj±c te wzorowane 
-na: Type Enforcement (TE), kontroli dostêpu opartej na rolach (RBAC) 
+%description -l pl.UTF-8
+Security-enhanced Linux jest prototypem jÄ…dra Linuksa i wielu
+aplikacji uÅ¼ytkowych o funkcjach podwyÅ¼szonego bezpieczeÅ„stwa.
+Zaprojektowany jest tak, aby w prosty sposÃ³b ukazaÄ‡ znaczenie
+obowiÄ…zkowej kontroli dostÄ™pu dla spoÅ‚ecznoÅ›ci linuksowej. Ukazuje
+rÃ³wnieÅ¼ jak takÄ… kontrolÄ™ moÅ¼na dodaÄ‡ do istniejÄ…cego systemu typu
+Linux. JÄ…dro SELinux zawiera nowe skÅ‚adniki architektury pierwotnie
+opracowane w celu ulepszenia bezpieczeÅ„stwa systemu operacyjnego
+Flask. Te elementy zapewniajÄ… ogÃ³lne wsparcie we wdraÅ¼aniu wielu 
+typÃ³w polityk obowiÄ…zkowej kontroli dostÄ™pu, wÅ‚Ä…czajÄ…c te wzorowane 
+na: Type Enforcement (TE), kontroli dostÄ™pu opartej na rolach (RBAC) 
 i zabezpieczeniach wielopoziomowych.
 
-libselinux dostarcza API dla aplikacji SELinux aby mog³y pobieraæ 
-i ustawiaæ procesy i konteksty plików w celu korzystania z polityki
-bezpieczeñstwa. Biblioteka jest wymagana przez wszystkie aplikacje,
-które u¿ywaj± API SELinux.
+libselinux dostarcza API dla aplikacji SELinux aby mogÅ‚y pobieraÄ‡ 
+i ustawiaÄ‡ procesy i konteksty plikÃ³w w celu korzystania z polityki
+bezpieczeÅ„stwa. Biblioteka jest wymagana przez wszystkie aplikacje,
+ktÃ³re uÅ¼ywajÄ… API SELinux.
 
 %package devel
 Summary:	Header files and devel documentation
-Summary(pl):	Pliki nag³ówkowe i dokumentacja programistyczna
+Summary(pl.UTF-8):   Pliki nagÅ‚Ã³wkowe i dokumentacja programistyczna
 Group:		Development/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 Obsoletes:	selinux-libs-devel
@@ -75,12 +75,12 @@ Obsoletes:	selinux-libs-devel
 %description devel
 Header files and devel documentation for SELinux libraries.
 
-%description devel -l pl
-Pliki nag³ówkowe i dokumentacja programistyczna bibliotek SELinux.
+%description devel -l pl.UTF-8
+Pliki nagÅ‚Ã³wkowe i dokumentacja programistyczna bibliotek SELinux.
 
 %package static
 Summary:	Static SELinux library
-Summary(pl):	Biblioteki statyczne SELinux
+Summary(pl.UTF-8):   Biblioteki statyczne SELinux
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{epoch}:%{version}-%{release}
 Obsoletes:	selinux-static
@@ -88,12 +88,12 @@ Obsoletes:	selinux-static
 %description static
 SELinux static libraries.
 
-%description static -l pl
+%description static -l pl.UTF-8
 Biblioteki statyczne SELinux.
 
 %package utils
 Summary:	SELinux utils
-Summary(pl):	Narzêdzia SELinux
+Summary(pl.UTF-8):   NarzÄ™dzia SELinux
 Group:		Applications/System
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 Obsoletes:	selinux-utils
@@ -101,20 +101,20 @@ Obsoletes:	selinux-utils
 %description utils
 SELinux utils.
 
-%description utils -l pl
-Narzêdzia SELinux.
+%description utils -l pl.UTF-8
+NarzÄ™dzia SELinux.
 
 %package -n python-selinux
 Summary:	Python binding for SELinux library
-Summary(pl):	Wi±zania Pythona do biblioteki SELinux
+Summary(pl.UTF-8):   WiÄ…zania Pythona do biblioteki SELinux
 Group:		Libraries/Python
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 
 %description -n python-selinux
 Python binding for SELinux library.
 
-%description -n python-selinux -l pl
-Wi±zania Pythona do biblioteki SELinux.
+%description -n python-selinux -l pl.UTF-8
+WiÄ…zania Pythona do biblioteki SELinux.
 
 %prep
 %setup -q
