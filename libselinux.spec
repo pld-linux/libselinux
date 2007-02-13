@@ -3,7 +3,7 @@
 %bcond_without	python	# python binding
 #
 Summary:	SELinux library and simple utilities
-Summary(pl.UTF-8):   Biblioteka SELinux i proste narzędzia
+Summary(pl.UTF-8):	Biblioteka SELinux i proste narzędzia
 Name:		libselinux
 Version:	1.34.0
 Release:	1
@@ -67,7 +67,7 @@ które używają API SELinux.
 
 %package devel
 Summary:	Header files and devel documentation
-Summary(pl.UTF-8):   Pliki nagłówkowe i dokumentacja programistyczna
+Summary(pl.UTF-8):	Pliki nagłówkowe i dokumentacja programistyczna
 Group:		Development/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 Obsoletes:	selinux-libs-devel
@@ -80,7 +80,7 @@ Pliki nagłówkowe i dokumentacja programistyczna bibliotek SELinux.
 
 %package static
 Summary:	Static SELinux library
-Summary(pl.UTF-8):   Biblioteki statyczne SELinux
+Summary(pl.UTF-8):	Biblioteki statyczne SELinux
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{epoch}:%{version}-%{release}
 Obsoletes:	selinux-static
@@ -93,7 +93,7 @@ Biblioteki statyczne SELinux.
 
 %package utils
 Summary:	SELinux utils
-Summary(pl.UTF-8):   Narzędzia SELinux
+Summary(pl.UTF-8):	Narzędzia SELinux
 Group:		Applications/System
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 Obsoletes:	selinux-utils
@@ -106,7 +106,7 @@ Narzędzia SELinux.
 
 %package -n python-selinux
 Summary:	Python binding for SELinux library
-Summary(pl.UTF-8):   Wiązania Pythona do biblioteki SELinux
+Summary(pl.UTF-8):	Wiązania Pythona do biblioteki SELinux
 Group:		Libraries/Python
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 
