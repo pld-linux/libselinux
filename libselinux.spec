@@ -13,6 +13,7 @@ Group:		Libraries
 Source0:	http://www.nsa.gov/selinux/archives/%{name}-%{version}.tgz
 # Source0-md5:	ca56ee48af295f28eb3d59a6e71f92f5
 Patch0:		%{name}-vcontext-selinux.patch
+Patch1:		%{name}-multilib.patch
 URL:		http://www.nsa.gov/selinux/
 %ifarch ppc ppc64 sparc sparcv9 sparc64
 BuildRequires:	gcc >= 5:3.4
@@ -119,6 +120,7 @@ Wiązania Pythona do biblioteki SELinux.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 # "-z defs" doesn't mix with --as-needed when some object needs symbols from
 # ld.so (because of __thread variable in this case)
