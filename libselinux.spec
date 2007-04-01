@@ -5,13 +5,13 @@
 Summary:	SELinux library and simple utilities
 Summary(pl.UTF-8):	Biblioteka SELinux i proste narzędzia
 Name:		libselinux
-Version:	1.34.0
+Version:	2.0.8
 Release:	1
 Epoch:		0
 License:	Public Domain
 Group:		Libraries
 Source0:	http://www.nsa.gov/selinux/archives/%{name}-%{version}.tgz
-# Source0-md5:	ca56ee48af295f28eb3d59a6e71f92f5
+# Source0-md5:	74166ea9af9971e875ef6291d4b105da
 Patch0:		%{name}-vcontext-selinux.patch
 Patch1:		%{name}-multilib.patch
 URL:		http://www.nsa.gov/selinux/
@@ -21,13 +21,13 @@ BuildRequires:	gcc >= 5:3.4
 BuildRequires:	gcc >= 5:3.2
 %endif
 BuildRequires:	glibc-devel >= 6:2.3
-BuildRequires:	libsepol-devel >= 1.14
+BuildRequires:	libsepol-devel >= 2.0.0
 %{?with_python:BuildRequires:	python-devel}
 %{?with_python:BuildRequires:	rpm-pythonprov}
 BuildRequires:	sed >= 4.0
 %{?with_python:BuildRequires:	swig-python}
 Requires:	glibc(tls)
-Requires:	libsepol >= 1.14
+Requires:	libsepol >= 2.0.0
 Obsoletes:	selinux-libs
 Conflicts:	SysVinit < 2.86-4
 ExcludeArch:	i386
