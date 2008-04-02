@@ -5,13 +5,13 @@
 Summary:	SELinux library and simple utilities
 Summary(pl.UTF-8):	Biblioteka SELinux i proste narzędzia
 Name:		libselinux
-Version:	2.0.35
+Version:	2.0.59
 Release:	1
 Epoch:		0
 License:	Public Domain
 Group:		Libraries
 Source0:	http://www.nsa.gov/selinux/archives/%{name}-%{version}.tgz
-# Source0-md5:	735f0ff57642b6205cdd49e1de037cf1
+# Source0-md5:	6d0ac13766100945ce01b867b31585f1
 Patch0:		%{name}-vcontext-selinux.patch
 URL:		http://www.nsa.gov/selinux/
 %ifarch ppc ppc64 sparc sparcv9 sparc64
@@ -173,6 +173,8 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with python}
 %files -n python-selinux
 %defattr(644,root,root,755)
-%attr(755,root,root) %{py_sitedir}/_selinux.so
-%{py_sitedir}/selinux.py
+%dir %{py_sitedir}/selinux
+%attr(755,root,root) %{py_sitedir}/selinux/_selinux.so
+%attr(755,root,root) %{py_sitedir}/selinux/audit2why.so
+%{py_sitedir}/selinux/__init__.py
 %endif
