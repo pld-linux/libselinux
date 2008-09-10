@@ -1,10 +1,10 @@
---- libselinux-1.34.0/include/selinux/av_permissions.h.orig	2006-11-20 18:25:30.000000000 +0100
-+++ libselinux-1.34.0/include/selinux/av_permissions.h	2007-01-28 00:30:57.517480000 +0100
-@@ -525,6 +525,7 @@
- #define CAPABILITY__AUDIT_WRITE                   0x20000000UL
- #define CAPABILITY__AUDIT_CONTROL                 0x40000000UL
+--- libselinux-2.0.65/include/selinux/av_permissions.h.orig	2008-02-21 17:11:33.000000000 +0100
++++ libselinux-2.0.65/include/selinux/av_permissions.h	2008-09-10 22:17:10.876983118 +0200
+@@ -542,6 +542,7 @@
  #define CAPABILITY__SETFCAP                       0x80000000UL
-+#define CAPABILITY__CONTEXT                       0x80000000UL
  #define CAPABILITY2__MAC_OVERRIDE                 0x00000001UL
  #define CAPABILITY2__MAC_ADMIN                    0x00000002UL
++#define CAPABILITY2__CONTEXT                      0x00000004UL
  #define PASSWD__PASSWD                            0x00000001UL
+ #define PASSWD__CHFN                              0x00000002UL
+ #define PASSWD__CHSH                              0x00000004UL
