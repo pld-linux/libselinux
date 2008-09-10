@@ -5,13 +5,13 @@
 Summary:	SELinux library and simple utilities
 Summary(pl.UTF-8):	Biblioteka SELinux i proste narzędzia
 Name:		libselinux
-Version:	2.0.59
+Version:	2.0.65
 Release:	1
 Epoch:		0
 License:	Public Domain
 Group:		Libraries
 Source0:	http://www.nsa.gov/selinux/archives/%{name}-%{version}.tgz
-# Source0-md5:	6d0ac13766100945ce01b867b31585f1
+# Source0-md5:	47e0d67e843a5cfacd3a27c89efc65e3
 Patch0:		%{name}-vcontext-selinux.patch
 URL:		http://www.nsa.gov/selinux/
 %ifarch ppc ppc64 sparc sparcv9 sparc64
@@ -140,7 +140,7 @@ rm -rf $RPM_BUILD_ROOT
 	DESTDIR="$RPM_BUILD_ROOT"
 
 # make symlink across / absolute
-ln -sf /%{_lib}/$(cd $RPM_BUILD_ROOT/%{_lib} ; echo libselinux.so.*) \
+ln -sf /%{_lib}/$(basename $RPM_BUILD_ROOT/%{_lib}/libselinux.so.*) \
 	$RPM_BUILD_ROOT%{_libdir}/libselinux.so
 
 %clean
