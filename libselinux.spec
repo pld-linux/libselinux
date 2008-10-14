@@ -21,6 +21,7 @@ BuildRequires:	gcc >= 5:3.2
 %endif
 BuildRequires:	glibc-devel >= 6:2.3
 BuildRequires:	libsepol-devel >= 2.0.0
+%{?with_python:BuildRequires:	libsepol-static}
 %{?with_python:BuildRequires:	python-devel}
 %{?with_python:BuildRequires:	rpm-pythonprov}
 BuildRequires:	sed >= 4.0
