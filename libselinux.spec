@@ -6,7 +6,7 @@ Summary:	SELinux library and simple utilities
 Summary(pl.UTF-8):	Biblioteka SELinux i proste narzędzia
 Name:		libselinux
 Version:	2.0.65
-Release:	2
+Release:	3
 Epoch:		0
 License:	Public Domain
 Group:		Libraries
