@@ -5,15 +5,15 @@
 Summary:	SELinux library and simple utilities
 Summary(pl.UTF-8):	Biblioteka SELinux i proste narzędzia
 Name:		libselinux
-Version:	2.0.65
-Release:	3
+Version:	2.0.71
+Release:	1
 Epoch:		0
 License:	Public Domain
 Group:		Libraries
-Source0:	http://www.nsa.gov/selinux/archives/%{name}-%{version}.tgz
-# Source0-md5:	47e0d67e843a5cfacd3a27c89efc65e3
+Source0:	http://userspace.selinuxproject.org/releases/20080909/devel/libselinux-%{version}.tar.gz
+# Source0-md5:	66aa907182eeb56259bafacce2f357a4
 Patch0:		%{name}-vcontext-selinux.patch
-URL:		http://www.nsa.gov/selinux/
+URL:		http://userspace.selinuxproject.org/trac
 %ifarch ppc ppc64 sparc sparcv9 sparc64
 BuildRequires:	gcc >= 5:3.4
 %else
@@ -126,7 +126,7 @@ Wiązania Pythona do biblioteki SELinux.
 sed -i -e 's/-z,defs,//' src/Makefile
 
 %build
-%{__make} all %{?with_python:pywrap} \
+%{__make} -j1 all %{?with_python:pywrap} \
 	CC="%{__cc}" \
 	LDFLAGS="%{rpmldflags}" \
 	CFLAGS="%{rpmcflags} -D_FILE_OFFSET_BITS=64" \
