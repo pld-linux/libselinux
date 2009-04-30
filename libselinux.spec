@@ -5,13 +5,12 @@
 Summary:	SELinux library and simple utilities
 Summary(pl.UTF-8):	Biblioteka SELinux i proste narzędzia
 Name:		libselinux
-Version:	2.0.71
+Version:	2.0.79
 Release:	1
-Epoch:		0
 License:	Public Domain
 Group:		Libraries
-Source0:	http://userspace.selinuxproject.org/releases/20080909/devel/libselinux-%{version}.tar.gz
-# Source0-md5:	66aa907182eeb56259bafacce2f357a4
+Source0:	http://userspace.selinuxproject.org/releases/20090403/devel/%{name}-%{version}.tar.gz
+# Source0-md5:	b2e01160c6a9ade335b864cc4f8b9a44
 Patch0:		%{name}-vcontext-selinux.patch
 URL:		http://userspace.selinuxproject.org/trac
 %ifarch ppc ppc64 sparc sparcv9 sparc64
