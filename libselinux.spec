@@ -5,13 +5,13 @@
 Summary:	SELinux library and simple utilities
 Summary(pl.UTF-8):	Biblioteka SELinux i proste narzędzia
 Name:		libselinux
-Version:	2.0.80
+Version:	2.0.81
 Release:	1
 License:	Public Domain
 Group:		Libraries
 #git http://oss.tresys.com/git/selinux.git/
 Source0:	%{name}-%{version}.tar.gz
-# Source0-md5:	c4647a6adde8353600f4291d64f96108
+# Source0-md5:	e1ca988892769095311d593cfcde244d
 Patch0:		%{name}-vcontext-selinux.patch
 URL:		http://userspace.selinuxproject.org/trac
 %ifarch ppc ppc64 sparc sparcv9 sparc64
@@ -56,12 +56,12 @@ obowiązkowej kontroli dostępu dla społeczności linuksowej. Ukazuje
 również jak taką kontrolę można dodać do istniejącego systemu typu
 Linux. Jądro SELinux zawiera nowe składniki architektury pierwotnie
 opracowane w celu ulepszenia bezpieczeństwa systemu operacyjnego
-Flask. Te elementy zapewniają ogólne wsparcie we wdrażaniu wielu 
-typów polityk obowiązkowej kontroli dostępu, włączając te wzorowane 
-na: Type Enforcement (TE), kontroli dostępu opartej na rolach (RBAC) 
+Flask. Te elementy zapewniają ogólne wsparcie we wdrażaniu wielu typów
+polityk obowiązkowej kontroli dostępu, włączając te wzorowane na:
+Type Enforcement (TE), kontroli dostępu opartej na rolach (RBAC)
 i zabezpieczeniach wielopoziomowych.
 
-libselinux dostarcza API dla aplikacji SELinux aby mogły pobierać 
+libselinux dostarcza API dla aplikacji SELinux aby mogły pobierać
 i ustawiać procesy i konteksty plików w celu korzystania z polityki
 bezpieczeństwa. Biblioteka jest wymagana przez wszystkie aplikacje,
 które używają API SELinux.
@@ -169,6 +169,7 @@ rm -rf $RPM_BUILD_ROOT
 %files utils
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_sbindir}/*
+/sbin/matchpathcon
 %{_mandir}/man8/*.8*
 
 %if %{with python}
