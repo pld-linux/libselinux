@@ -5,13 +5,13 @@
 Summary:	SELinux library and simple utilities
 Summary(pl.UTF-8):	Biblioteka SELinux i proste narzędzia
 Name:		libselinux
-Version:	2.0.81
+Version:	2.0.85
 Release:	1
 License:	Public Domain
 Group:		Libraries
 #git http://oss.tresys.com/git/selinux.git/
-Source0:	%{name}-%{version}.tar.gz
-# Source0-md5:	e1ca988892769095311d593cfcde244d
+Source0:	http://userspace.selinuxproject.org/releases/20090731/devel/%{name}-%{version}.tar.gz
+# Source0-md5:	683e5f63035c6dc1af42769e690558e9
 Patch0:		%{name}-vcontext-selinux.patch
 URL:		http://userspace.selinuxproject.org/trac
 %ifarch ppc ppc64 sparc sparcv9 sparc64
