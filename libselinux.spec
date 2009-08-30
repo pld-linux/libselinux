@@ -6,7 +6,7 @@ Summary:	SELinux library and simple utilities
 Summary(pl.UTF-8):	Biblioteka SELinux i proste narzędzia
 Name:		libselinux
 Version:	2.0.85
-Release:	1
+Release:	2
 License:	Public Domain
 Group:		Libraries
 #git http://oss.tresys.com/git/selinux.git/
@@ -169,7 +169,7 @@ rm -rf $RPM_BUILD_ROOT
 %files utils
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_sbindir}/*
-/sbin/matchpathcon
+%attr(755,root,root) /sbin/matchpathcon
 %{_mandir}/man8/*.8*
 
 %if %{with python}
