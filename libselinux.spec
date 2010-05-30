@@ -6,7 +6,7 @@ Summary:	SELinux library and simple utilities
 Summary(pl.UTF-8):	Biblioteka SELinux i proste narzędzia
 Name:		libselinux
 Version:	2.0.90
-Release:	1
+Release:	2
 License:	Public Domain
 Group:		Libraries
 #git clone http://oss.tresys.com/git/selinux.git/
@@ -71,6 +71,7 @@ Summary:	Header files and devel documentation
 Summary(pl.UTF-8):	Pliki nagłówkowe i dokumentacja programistyczna
 Group:		Development/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
+Requires:	libsepol-devel
 Obsoletes:	selinux-libs-devel
 
 %description devel
