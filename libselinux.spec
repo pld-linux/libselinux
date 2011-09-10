@@ -5,13 +5,13 @@
 Summary:	SELinux library and simple utilities
 Summary(pl.UTF-8):	Biblioteka SELinux i proste narzędzia
 Name:		libselinux
-Version:	2.0.94
-Release:	3
+Version:	2.1.0
+Release:	1
 License:	Public Domain
 Group:		Libraries
 #git clone http://oss.tresys.com/git/selinux.git/
-Source0:	http://userspace.selinuxproject.org/releases/20100525/devel/%{name}-%{version}.tar.gz
-# Source0-md5:	544f75aab11c2af352facc51af12029f
+Source0:	http://userspace.selinuxproject.org/releases/20110727/devel/%{name}-%{version}.tar.gz
+# Source0-md5:	df32d1650d2ae48cb88c1589c41a50c4
 Patch0:		%{name}-vcontext-selinux.patch
 URL:		http://userspace.selinuxproject.org/trac
 %ifarch ppc ppc64 sparc sparcv9 sparc64
@@ -20,7 +20,7 @@ BuildRequires:	gcc >= 5:3.4
 BuildRequires:	gcc >= 5:3.2
 %endif
 BuildRequires:	glibc-devel >= 6:2.3
-BuildRequires:	libsepol-devel >= 2.0.0
+BuildRequires:	libsepol-devel >= 2.1.0
 %{?with_python:BuildRequires:	libsepol-static}
 %{?with_python:BuildRequires:	python-devel}
 %{?with_python:BuildRequires:	rpm-pythonprov}
@@ -34,8 +34,8 @@ ExcludeArch:	i386
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
-Security-enhanced Linux is a patch of the Linux kernel and a number
-of utilities with enhanced security functionality designed to add
+Security-enhanced Linux is a patch of the Linux kernel and a number of
+utilities with enhanced security functionality designed to add
 mandatory access controls to Linux. The Security-enhanced Linux kernel
 contains new architectural components originally developed to improve
 the security of the Flask operating system. These architectural
@@ -57,12 +57,12 @@ również jak taką kontrolę można dodać do istniejącego systemu typu
 Linux. Jądro SELinux zawiera nowe składniki architektury pierwotnie
 opracowane w celu ulepszenia bezpieczeństwa systemu operacyjnego
 Flask. Te elementy zapewniają ogólne wsparcie we wdrażaniu wielu typów
-polityk obowiązkowej kontroli dostępu, włączając te wzorowane na:
-Type Enforcement (TE), kontroli dostępu opartej na rolach (RBAC)
-i zabezpieczeniach wielopoziomowych.
+polityk obowiązkowej kontroli dostępu, włączając te wzorowane na: Type
+Enforcement (TE), kontroli dostępu opartej na rolach (RBAC) i
+zabezpieczeniach wielopoziomowych.
 
-libselinux dostarcza API dla aplikacji SELinux aby mogły pobierać
-i ustawiać procesy i konteksty plików w celu korzystania z polityki
+libselinux dostarcza API dla aplikacji SELinux aby mogły pobierać i
+ustawiać procesy i konteksty plików w celu korzystania z polityki
 bezpieczeństwa. Biblioteka jest wymagana przez wszystkie aplikacje,
 które używają API SELinux.
 
@@ -130,7 +130,7 @@ sed -i -e 's/-z,defs,//' src/Makefile
 %{__make} -j1 all %{?with_python:pywrap} \
 	CC="%{__cc}" \
 	LDFLAGS="%{rpmldflags}" \
-	CFLAGS="%{rpmcflags} -D_FILE_OFFSET_BITS=64" \
+	CFLAGS="%{rpmcppflags} %{rpmcflags} -D_FILE_OFFSET_BITS=64" \
 	LIBDIR=%{_libdir}
 
 %install
@@ -163,6 +163,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/selinux
 %{_mandir}/man3/*.3*
 %{_mandir}/man5/selabel_*.5*
+%{_mandir}/man5/secolor.conf.5*
 
 %files static
 %defattr(644,root,root,755)
