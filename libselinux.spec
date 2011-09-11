@@ -2,6 +2,8 @@
 # Conditional build:
 %bcond_without	python	# python binding
 #
+%define	sepol_ver	2.1.0
+#
 Summary:	SELinux library and simple utilities
 Summary(pl.UTF-8):	Biblioteka SELinux i proste narzędzia
 Name:		libselinux
@@ -20,14 +22,14 @@ BuildRequires:	gcc >= 5:3.4
 BuildRequires:	gcc >= 5:3.2
 %endif
 BuildRequires:	glibc-devel >= 6:2.3
-BuildRequires:	libsepol-devel >= 2.1.0
-%{?with_python:BuildRequires:	libsepol-static >= 2.1.0}
+BuildRequires:	libsepol-devel >= %{sepol_ver}
+%{?with_python:BuildRequires:	libsepol-static >= %{sepol_ver}}
 %{?with_python:BuildRequires:	python-devel}
 %{?with_python:BuildRequires:	rpm-pythonprov}
 BuildRequires:	sed >= 4.0
 %{?with_python:BuildRequires:	swig-python}
 Requires:	glibc(tls)
-Requires:	libsepol >= 2.1.0
+Requires:	libsepol >= %{sepol_ver}
 Obsoletes:	selinux-libs
 Conflicts:	SysVinit < 2.86-4
 ExcludeArch:	i386
@@ -71,7 +73,7 @@ Summary:	Header files and devel documentation
 Summary(pl.UTF-8):	Pliki nagłówkowe i dokumentacja programistyczna
 Group:		Development/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
-Requires:	libsepol-devel >= 2.1.0
+Requires:	libsepol-devel >= %{sepol_ver}
 Obsoletes:	selinux-libs-devel
 
 %description devel
