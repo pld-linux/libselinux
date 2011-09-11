@@ -21,13 +21,13 @@ BuildRequires:	gcc >= 5:3.2
 %endif
 BuildRequires:	glibc-devel >= 6:2.3
 BuildRequires:	libsepol-devel >= 2.1.0
-%{?with_python:BuildRequires:	libsepol-static}
+%{?with_python:BuildRequires:	libsepol-static >= 2.1.0}
 %{?with_python:BuildRequires:	python-devel}
 %{?with_python:BuildRequires:	rpm-pythonprov}
 BuildRequires:	sed >= 4.0
 %{?with_python:BuildRequires:	swig-python}
 Requires:	glibc(tls)
-Requires:	libsepol >= 2.0.0
+Requires:	libsepol >= 2.1.0
 Obsoletes:	selinux-libs
 Conflicts:	SysVinit < 2.86-4
 ExcludeArch:	i386
@@ -71,7 +71,7 @@ Summary:	Header files and devel documentation
 Summary(pl.UTF-8):	Pliki nagłówkowe i dokumentacja programistyczna
 Group:		Development/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
-Requires:	libsepol-devel
+Requires:	libsepol-devel >= 2.1.0
 Obsoletes:	selinux-libs-devel
 
 %description devel
