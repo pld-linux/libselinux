@@ -157,6 +157,20 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc ChangeLog LICENSE
 %attr(755,root,root) /%{_lib}/libselinux.so.*
+%{_mandir}/man5/booleans.5*
+%{_mandir}/man5/customizable_types.5*
+%{_mandir}/man5/default_contexts.5*
+%{_mandir}/man5/default_type.5*
+%{_mandir}/man5/failsafe_context.5*
+%{_mandir}/man5/local.users.5*
+%{_mandir}/man5/removable_context.5*
+%{_mandir}/man5/secolor.conf.5*
+%{_mandir}/man5/securetty_types.5*
+%{_mandir}/man5/service_seusers.5*
+%{_mandir}/man5/seusers.5*
+%{_mandir}/man5/user_contexts.5*
+%{_mandir}/man5/virtual_domain_context.5*
+%{_mandir}/man5/virtual_image_context.5*
 
 %files devel
 %defattr(644,root,root,755)
@@ -164,8 +178,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_pkgconfigdir}/libselinux.pc
 %{_includedir}/selinux
 %{_mandir}/man3/*.3*
+%{_mandir}/man5/file_contexts.5*
+%{_mandir}/man5/media.5*
 %{_mandir}/man5/selabel_*.5*
-%{_mandir}/man5/secolor.conf.5*
+%{_mandir}/man5/sepgsql_contexts.5*
+%{_mandir}/man5/x_contexts.5*
 
 %files static
 %defattr(644,root,root,755)
@@ -173,9 +190,30 @@ rm -rf $RPM_BUILD_ROOT
 
 %files utils
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_sbindir}/*
+%attr(755,root,root) %{_sbindir}/avcstat
+%attr(755,root,root) %{_sbindir}/compute_*
+%attr(755,root,root) %{_sbindir}/getconlist
+%attr(755,root,root) %{_sbindir}/getdefaultcon
+%attr(755,root,root) %{_sbindir}/getenforce
+%attr(755,root,root) %{_sbindir}/getfilecon
+%attr(755,root,root) %{_sbindir}/getpidcon
+%attr(755,root,root) %{_sbindir}/getsebool
+%attr(755,root,root) %{_sbindir}/getseuser
+%attr(755,root,root) %{_sbindir}/matchpathcon
+%attr(755,root,root) %{_sbindir}/policyvers
+%attr(755,root,root) %{_sbindir}/selinux*
+%attr(755,root,root) %{_sbindir}/setenforce
+%attr(755,root,root) %{_sbindir}/setfilecon
+%attr(755,root,root) %{_sbindir}/togglesebool
 %attr(755,root,root) /sbin/matchpathcon
-%{_mandir}/man8/*.8*
+%{_mandir}/man8/avcstat.8*
+%{_mandir}/man8/booleans.8*
+%{_mandir}/man8/getenforce.8*
+%{_mandir}/man8/getsebool.8*
+%{_mandir}/man8/matchpathcon.8*
+%{_mandir}/man8/selinux*.8*
+%{_mandir}/man8/setenforce.8*
+%{_mandir}/man8/togglesebool.8*
 
 %if %{with python}
 %files -n python-selinux
