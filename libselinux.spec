@@ -2,18 +2,18 @@
 # Conditional build:
 %bcond_without	python	# python binding
 #
-%define	sepol_ver	2.1.0
+%define	sepol_ver	2.1.4
 #
 Summary:	SELinux library and simple utilities
 Summary(pl.UTF-8):	Biblioteka SELinux i proste narzędzia
 Name:		libselinux
-Version:	2.1.0
+Version:	2.1.9
 Release:	1
 License:	Public Domain
 Group:		Libraries
 #git clone http://oss.tresys.com/git/selinux.git/
-Source0:	http://userspace.selinuxproject.org/releases/20110727/devel/%{name}-%{version}.tar.gz
-# Source0-md5:	df32d1650d2ae48cb88c1589c41a50c4
+Source0:	http://userspace.selinuxproject.org/releases/20120216/%{name}-%{version}.tar.gz
+# Source0-md5:	8ea0548dd65e9479b357ba1447f89221
 Patch0:		%{name}-vcontext-selinux.patch
 URL:		http://userspace.selinuxproject.org/trac
 %ifarch ppc ppc64 sparc sparcv9 sparc64
