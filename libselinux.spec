@@ -2,18 +2,18 @@
 # Conditional build:
 %bcond_without	python	# python binding
 #
-%define	sepol_ver	2.1.4
+%define	sepol_ver	2.1.9
 #
 Summary:	SELinux library and simple utilities
 Summary(pl.UTF-8):	Biblioteka SELinux i proste narzędzia
 Name:		libselinux
-Version:	2.1.9
-Release:	2
+Version:	2.1.13
+Release:	1
 License:	Public Domain
 Group:		Libraries
 #git clone http://oss.tresys.com/git/selinux.git/
-Source0:	http://userspace.selinuxproject.org/releases/20120216/%{name}-%{version}.tar.gz
-# Source0-md5:	8ea0548dd65e9479b357ba1447f89221
+Source0:	http://userspace.selinuxproject.org/releases/20130423/%{name}-%{version}.tar.gz
+# Source0-md5:	32bf7b5182977a8a9248a1eeefe49a22
 Patch0:		%{name}-vcontext-selinux.patch
 URL:		http://userspace.selinuxproject.org/trac
 %ifarch ppc ppc64 sparc sparcv9 sparc64
@@ -131,7 +131,7 @@ sed -i -e 's/-z,defs,//' src/Makefile
 %build
 %{__make} -j1 all %{?with_python:pywrap} \
 	CC="%{__cc}" \
-	LDFLAGS="%{rpmldflags}" \
+	LDFLAGS="%{rpmldflags} -lpcre -lpthread" \
 	CFLAGS="%{rpmcppflags} %{rpmcflags} -D_FILE_OFFSET_BITS=64" \
 	LIBDIR=%{_libdir}
 
@@ -162,6 +162,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man5/default_contexts.5*
 %{_mandir}/man5/default_type.5*
 %{_mandir}/man5/failsafe_context.5*
+%{_mandir}/man5/file_contexts.homedirs.5*
+%{_mandir}/man5/file_contexts.local.5
+%{_mandir}/man5/file_contexts.subs.5
+%{_mandir}/man5/file_contexts.subs_dist.5
 %{_mandir}/man5/local.users.5*
 %{_mandir}/man5/removable_context.5*
 %{_mandir}/man5/secolor.conf.5*
@@ -203,9 +207,9 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_sbindir}/policyvers
 %attr(755,root,root) %{_sbindir}/selinux*
 %attr(755,root,root) %{_sbindir}/setenforce
+%attr(755,root,root) %{_sbindir}/sefcontext_compile
 %attr(755,root,root) %{_sbindir}/setfilecon
 %attr(755,root,root) %{_sbindir}/togglesebool
-%attr(755,root,root) /sbin/matchpathcon
 %{_mandir}/man8/avcstat.8*
 %{_mandir}/man8/booleans.8*
 %{_mandir}/man8/getenforce.8*
