@@ -1,6 +1,7 @@
 #
 # Conditional build:
-%bcond_without	python	# python binding
+%bcond_without	python	# Python binding
+%bcond_without	ruby	# Ruby binding
 #
 %define	sepol_ver	2.1.9
 #
@@ -24,10 +25,14 @@ BuildRequires:	gcc >= 5:3.2
 BuildRequires:	glibc-devel >= 6:2.3
 BuildRequires:	libsepol-devel >= %{sepol_ver}
 %{?with_python:BuildRequires:	libsepol-static >= %{sepol_ver}}
+BuildRequires:	pcre-devel
+BuildRequires:	pkgconfig
 %{?with_python:BuildRequires:	python-devel}
 %{?with_python:BuildRequires:	rpm-pythonprov}
+%{?with_ruby:BuildRequires:	ruby-devel >= 1.9}
 BuildRequires:	sed >= 4.0
 %{?with_python:BuildRequires:	swig-python}
+%{?with_ruby:BuildRequires:	swig-ruby}
 Requires:	glibc(tls)
 Requires:	libsepol >= %{sepol_ver}
 Obsoletes:	selinux-libs
@@ -120,6 +125,18 @@ Python binding for SELinux library.
 %description -n python-selinux -l pl.UTF-8
 Wiązania Pythona do biblioteki SELinux.
 
+%package -n ruby-selinux
+Summary:	Ruby binding for SELinux library
+Summary(pl.UTF-8):	Wiązania języka Ruby do biblioteki SELinux
+Group:		Development/Languages
+Requires:	%{name} = %{epoch}:%{version}-%{release}
+
+%description -n ruby-selinux
+Ruby binding for SELinux library.
+
+%description -n ruby-selinux -l pl.UTF-8
+Wiązania języka Ruby do biblioteki SELinux.
+
 %prep
 %setup -q
 %patch0 -p1
@@ -129,19 +146,21 @@ Wiązania Pythona do biblioteki SELinux.
 sed -i -e 's/-z,defs,//' src/Makefile
 
 %build
-%{__make} -j1 all %{?with_python:pywrap} \
+%{__make} -j1 all %{?with_python:pywrap} %{?with_ruby:rubywrap} \
 	CC="%{__cc}" \
-	LDFLAGS="%{rpmldflags} -lpcre -lpthread" \
 	CFLAGS="%{rpmcppflags} %{rpmcflags} -D_FILE_OFFSET_BITS=64" \
-	LIBDIR=%{_libdir}
+	LDFLAGS="%{rpmldflags} -lpcre -lpthread" \
+	LIBDIR=%{_libdir} \
+	%{?with_ruby:RUBYINC="$(pkg-config --cflags ruby-1.9)"}
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%{__make} install %{?with_python:install-pywrap} \
+%{__make} install %{?with_python:install-pywrap} %{?with_ruby:install-rubywrap} \
 	LIBDIR="$RPM_BUILD_ROOT%{_libdir}" \
 	SHLIBDIR="$RPM_BUILD_ROOT/%{_lib}" \
-	DESTDIR="$RPM_BUILD_ROOT"
+	DESTDIR="$RPM_BUILD_ROOT" \
+	RUBYINSTALL="$RPM_BUILD_ROOT%{ruby_vendorarchdir}"
 
 # make symlink across / absolute
 ln -sf /%{_lib}/$(basename $RPM_BUILD_ROOT/%{_lib}/libselinux.so.*) \
@@ -226,4 +245,10 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{py_sitedir}/selinux/_selinux.so
 %attr(755,root,root) %{py_sitedir}/selinux/audit2why.so
 %{py_sitedir}/selinux/__init__.py
+%endif
+
+%if %{with ruby}
+%files -n ruby-selinux
+%defattr(644,root,root,755)
+%attr(755,root,root) %{ruby_vendorarchdir}/selinux.so
 %endif
