@@ -3,18 +3,18 @@
 %bcond_without	python	# Python binding
 %bcond_without	ruby	# Ruby binding
 #
-%define	sepol_ver	2.1.9
+%define	sepol_ver	2.2
 #
 Summary:	SELinux library and simple utilities
 Summary(pl.UTF-8):	Biblioteka SELinux i proste narzędzia
 Name:		libselinux
-Version:	2.1.13
+Version:	2.2.2
 Release:	1
 License:	Public Domain
 Group:		Libraries
 #git clone http://oss.tresys.com/git/selinux.git/
-Source0:	http://userspace.selinuxproject.org/releases/20130423/%{name}-%{version}.tar.gz
-# Source0-md5:	32bf7b5182977a8a9248a1eeefe49a22
+Source0:	http://userspace.selinuxproject.org/releases/20131030/%{name}-%{version}.tar.gz
+# Source0-md5:	55026eb4654c4f732a27c191b39bebaf
 Patch0:		%{name}-vcontext-selinux.patch
 URL:		http://userspace.selinuxproject.org/trac
 %ifarch ppc ppc64 sparc sparcv9 sparc64
@@ -234,6 +234,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man8/getenforce.8*
 %{_mandir}/man8/getsebool.8*
 %{_mandir}/man8/matchpathcon.8*
+%{_mandir}/man8/sefcontext_compile.8*
 %{_mandir}/man8/selinux*.8*
 %{_mandir}/man8/setenforce.8*
 %{_mandir}/man8/togglesebool.8*
