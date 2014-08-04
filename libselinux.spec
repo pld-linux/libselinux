@@ -15,7 +15,7 @@ Group:		Libraries
 Source0:	http://userspace.selinuxproject.org/releases/current/%{name}-%{version}.tar.gz
 # Source0-md5:	b11d4d95ef4bde732dbc8462df57a1e5
 Patch0:		%{name}-vcontext-selinux.patch
-URL:		http://userspace.selinuxproject.org/trac
+URL:		https://github.com/SELinuxProject/selinux/wiki
 %ifarch ppc ppc64 sparc sparcv9 sparc64
 BuildRequires:	gcc >= 5:3.4
 %else
