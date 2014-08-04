@@ -2,17 +2,16 @@
 # Conditional build:
 %bcond_without	python	# Python binding
 %bcond_without	ruby	# Ruby binding
-#
+
 %define	sepol_ver	2.3
-#
 Summary:	SELinux library and simple utilities
 Summary(pl.UTF-8):	Biblioteka SELinux i proste narzędzia
 Name:		libselinux
 Version:	2.3
-Release:	2
+Release:	3
 License:	Public Domain
 Group:		Libraries
-#git clone http://oss.tresys.com/git/selinux.git/
+# git clone http://oss.tresys.com/git/selinux.git/
 Source0:	http://userspace.selinuxproject.org/releases/current/%{name}-%{version}.tar.gz
 # Source0-md5:	b11d4d95ef4bde732dbc8462df57a1e5
 Patch0:		%{name}-vcontext-selinux.patch
@@ -29,6 +28,7 @@ BuildRequires:	pcre-devel
 BuildRequires:	pkgconfig
 %{?with_python:BuildRequires:	python-devel}
 %{?with_python:BuildRequires:	rpm-pythonprov}
+BuildRequires:	rpmbuild(macros) >= 1.696
 %{?with_ruby:BuildRequires:	ruby-devel >= 1.9}
 BuildRequires:	sed >= 4.0
 %{?with_python:BuildRequires:	swig-python}
@@ -77,7 +77,7 @@ które używają API SELinux.
 Summary:	Header files and devel documentation
 Summary(pl.UTF-8):	Pliki nagłówkowe i dokumentacja programistyczna
 Group:		Development/Libraries
-Requires:	%{name} = %{epoch}:%{version}-%{release}
+Requires:	%{name} = %{version}-%{release}
 Requires:	libsepol-devel >= %{sepol_ver}
 Obsoletes:	selinux-libs-devel
 
@@ -91,7 +91,7 @@ Pliki nagłówkowe i dokumentacja programistyczna bibliotek SELinux.
 Summary:	Static SELinux library
 Summary(pl.UTF-8):	Biblioteki statyczne SELinux
 Group:		Development/Libraries
-Requires:	%{name}-devel = %{epoch}:%{version}-%{release}
+Requires:	%{name}-devel = %{version}-%{release}
 Obsoletes:	selinux-static
 
 %description static
@@ -104,7 +104,7 @@ Biblioteki statyczne SELinux.
 Summary:	SELinux utils
 Summary(pl.UTF-8):	Narzędzia SELinux
 Group:		Applications/System
-Requires:	%{name} = %{epoch}:%{version}-%{release}
+Requires:	%{name} = %{version}-%{release}
 Obsoletes:	selinux-utils
 
 %description utils
@@ -117,7 +117,7 @@ Narzędzia SELinux.
 Summary:	Python binding for SELinux library
 Summary(pl.UTF-8):	Wiązania Pythona do biblioteki SELinux
 Group:		Libraries/Python
-Requires:	%{name} = %{epoch}:%{version}-%{release}
+Requires:	%{name} = %{version}-%{release}
 
 %description -n python-selinux
 Python binding for SELinux library.
@@ -129,7 +129,7 @@ Wiązania Pythona do biblioteki SELinux.
 Summary:	Ruby binding for SELinux library
 Summary(pl.UTF-8):	Wiązania języka Ruby do biblioteki SELinux
 Group:		Development/Languages
-Requires:	%{name} = %{epoch}:%{version}-%{release}
+Requires:	%{name} = %{version}-%{release}
 
 %description -n ruby-selinux
 Ruby binding for SELinux library.
@@ -151,16 +151,16 @@ sed -i -e 's/-z,defs,//' src/Makefile
 	CFLAGS="%{rpmcppflags} %{rpmcflags} -D_FILE_OFFSET_BITS=64" \
 	LDFLAGS="%{rpmldflags} -lpcre -lpthread" \
 	LIBDIR=%{_libdir} \
-	%{?with_ruby:RUBYINC="$(pkg-config --cflags ruby-1.9)"}
+	%{?with_ruby:RUBYINC="$(pkg-config --cflags ruby-%{ruby_abi})"}
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
 %{__make} install %{?with_python:install-pywrap} %{?with_ruby:install-rubywrap} \
-	LIBDIR="$RPM_BUILD_ROOT%{_libdir}" \
-	SHLIBDIR="$RPM_BUILD_ROOT/%{_lib}" \
-	DESTDIR="$RPM_BUILD_ROOT" \
-	RUBYINSTALL="$RPM_BUILD_ROOT%{ruby_vendorarchdir}"
+	LIBDIR=$RPM_BUILD_ROOT%{_libdir} \
+	SHLIBDIR=$RPM_BUILD_ROOT/%{_lib} \
+	RUBYINSTALL=$RPM_BUILD_ROOT%{ruby_vendorarchdir} \
+	DESTDIR=$RPM_BUILD_ROOT \
 
 # make symlink across / absolute
 ln -sf /%{_lib}/$(basename $RPM_BUILD_ROOT/%{_lib}/libselinux.so.*) \
