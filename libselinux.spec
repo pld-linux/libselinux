@@ -8,7 +8,7 @@ Summary:	SELinux library and simple utilities
 Summary(pl.UTF-8):	Biblioteka SELinux i proste narzędzia
 Name:		libselinux
 Version:	2.3
-Release:	3
+Release:	4
 License:	Public Domain
 Group:		Libraries
 # git clone http://oss.tresys.com/git/selinux.git/
