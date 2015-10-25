@@ -3,17 +3,17 @@
 %bcond_without	python	# Python binding
 %bcond_without	ruby	# Ruby binding
 
-%define	sepol_ver	2.3
+%define	sepol_ver	2.4
 Summary:	SELinux library and simple utilities
 Summary(pl.UTF-8):	Biblioteka SELinux i proste narzędzia
 Name:		libselinux
-Version:	2.3
-Release:	4
+Version:	2.4
+Release:	1
 License:	Public Domain
 Group:		Libraries
-# git clone http://oss.tresys.com/git/selinux.git/
-Source0:	http://userspace.selinuxproject.org/releases/current/%{name}-%{version}.tar.gz
-# Source0-md5:	b11d4d95ef4bde732dbc8462df57a1e5
+#Source0Download: https://github.com/SELinuxProject/selinux/wiki/Releases
+Source0:	https://raw.githubusercontent.com/wiki/SELinuxProject/selinux/files/releases/20150202/%{name}-%{version}.tar.gz
+# Source0-md5:	d19af2a367a81fb00bedc1b381694995
 Patch0:		%{name}-vcontext-selinux.patch
 URL:		https://github.com/SELinuxProject/selinux/wiki
 %ifarch ppc ppc64 sparc sparcv9 sparc64
