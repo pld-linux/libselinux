@@ -3,17 +3,17 @@
 %bcond_without	python	# Python binding
 %bcond_without	ruby	# Ruby binding
 
-%define	sepol_ver	2.4
+%define	sepol_ver	2.5
 Summary:	SELinux library and simple utilities
 Summary(pl.UTF-8):	Biblioteka SELinux i proste narzędzia
 Name:		libselinux
-Version:	2.4
-Release:	3
+Version:	2.5
+Release:	1
 License:	Public Domain
 Group:		Libraries
 #Source0Download: https://github.com/SELinuxProject/selinux/wiki/Releases
-Source0:	https://raw.githubusercontent.com/wiki/SELinuxProject/selinux/files/releases/20150202/%{name}-%{version}.tar.gz
-# Source0-md5:	d19af2a367a81fb00bedc1b381694995
+Source0:	https://raw.githubusercontent.com/wiki/SELinuxProject/selinux/files/releases/20160223/%{name}-%{version}.tar.gz
+# Source0-md5:	d1399f5c2fd2fbe0e9603d5143b30367
 Patch0:		%{name}-vcontext-selinux.patch
 URL:		https://github.com/SELinuxProject/selinux/wiki
 %ifarch ppc ppc64 sparc sparcv9 sparc64
@@ -224,6 +224,10 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_sbindir}/getseuser
 %attr(755,root,root) %{_sbindir}/matchpathcon
 %attr(755,root,root) %{_sbindir}/policyvers
+%attr(755,root,root) %{_sbindir}/selabel_digest
+%attr(755,root,root) %{_sbindir}/selabel_lookup
+%attr(755,root,root) %{_sbindir}/selabel_lookup_best_match
+%attr(755,root,root) %{_sbindir}/selabel_partial_match
 %attr(755,root,root) %{_sbindir}/selinux*
 %attr(755,root,root) %{_sbindir}/setenforce
 %attr(755,root,root) %{_sbindir}/sefcontext_compile
