@@ -172,6 +172,7 @@ Wiązania języka Ruby do biblioteki SELinux.
 	LDFLAGS="%{rpmldflags} -lpcre -lpthread" \
 	LIBDIR=%{_libdir} \
 	PYPREFIX=python2 \
+	PYTHON=%{__python} \
 	%{?with_ruby:RUBYINC="$(pkg-config --cflags ruby-%{ruby_abi})"}
 
 %if %{with python3}
@@ -180,7 +181,8 @@ Wiązania języka Ruby do biblioteki SELinux.
 	CFLAGS="%{rpmcppflags} %{rpmcflags} -D_FILE_OFFSET_BITS=64" \
 	LDFLAGS="%{rpmldflags} -lpthread" \
 	LIBDIR=%{_libdir} \
-	PYPREFIX=python3
+	PYPREFIX=python3 \
+	PYTHON=%{__python3}
 %endif
 
 %install
@@ -207,6 +209,7 @@ ln -sf /%{_lib}/$(basename $RPM_BUILD_ROOT/%{_lib}/libselinux.so.*) \
 %if %{with python3}
 %{__make} -C src install-pywrap \
 	DESTDIR=$RPM_BUILD_ROOT \
+	LIBDIR=$RPM_BUILD_ROOT%{_libdir} \
 	PYPREFIX=python3 \
 	PYTHON=%{__python3}
 
