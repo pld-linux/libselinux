@@ -1,7 +1,14 @@
 #
 # Conditional build:
-%bcond_without	python	# Python binding
+%bcond_without	python	# Python (any) bindings
+%bcond_without	python2	# Python 2 binding
+%bcond_without	python3	# Python 3 binding
 %bcond_without	ruby	# Ruby binding
+
+%if %{without python}
+%undefine	with_python2
+%undefine	with_python3
+%endif
 
 %define	sepol_ver	2.5
 Summary:	SELinux library and simple utilities
@@ -26,9 +33,10 @@ BuildRequires:	libsepol-devel >= %{sepol_ver}
 %{?with_python:BuildRequires:	libsepol-static >= %{sepol_ver}}
 BuildRequires:	pcre-devel
 BuildRequires:	pkgconfig
-%{?with_python:BuildRequires:	python-devel}
+%{?with_python2:BuildRequires:	python-devel >= 2}
+%{?with_python3:BuildRequires:	python3-devel >= 1:3.2}
 %{?with_python:BuildRequires:	rpm-pythonprov}
-BuildRequires:	rpmbuild(macros) >= 1.696
+BuildRequires:	rpmbuild(macros) >= 1.714
 %{?with_ruby:BuildRequires:	ruby-devel >= 1.9}
 BuildRequires:	sed >= 4.0
 %{?with_python:BuildRequires:	swig-python}
@@ -114,16 +122,28 @@ SELinux utils.
 Narzędzia SELinux.
 
 %package -n python-selinux
-Summary:	Python binding for SELinux library
-Summary(pl.UTF-8):	Wiązania Pythona do biblioteki SELinux
+Summary:	Python 2 binding for SELinux library
+Summary(pl.UTF-8):	Wiązania Pythona 2 do biblioteki SELinux
 Group:		Libraries/Python
 Requires:	%{name} = %{version}-%{release}
 
 %description -n python-selinux
-Python binding for SELinux library.
+Python 2 binding for SELinux library.
 
 %description -n python-selinux -l pl.UTF-8
-Wiązania Pythona do biblioteki SELinux.
+Wiązania Pythona 2 do biblioteki SELinux.
+
+%package -n python3-selinux
+Summary:	Python 3 binding for SELinux library
+Summary(pl.UTF-8):	Wiązania Pythona 3 do biblioteki SELinux
+Group:		Libraries/Python
+Requires:	%{name} = %{version}-%{release}
+
+%description -n python3-selinux
+Python 3 binding for SELinux library.
+
+%description -n python3-selinux -l pl.UTF-8
+Wiązania Pythona 3 do biblioteki SELinux.
 
 %package -n ruby-selinux
 Summary:	Ruby binding for SELinux library
@@ -143,28 +163,56 @@ Wiązania języka Ruby do biblioteki SELinux.
 
 # "-z defs" doesn't mix with --as-needed when some object needs symbols from
 # ld.so (because of __thread variable in this case)
-sed -i -e 's/-z,defs,//' src/Makefile
+%{__sed} -i -e 's/-z,defs,//' src/Makefile
 
 %build
-%{__make} -j1 all %{?with_python:pywrap} %{?with_ruby:rubywrap} \
+%{__make} -j1 all %{?with_python2:pywrap} %{?with_ruby:rubywrap} \
 	CC="%{__cc}" \
 	CFLAGS="%{rpmcppflags} %{rpmcflags} -D_FILE_OFFSET_BITS=64" \
 	LDFLAGS="%{rpmldflags} -lpcre -lpthread" \
 	LIBDIR=%{_libdir} \
+	PYPREFIX=python2 \
 	%{?with_ruby:RUBYINC="$(pkg-config --cflags ruby-%{ruby_abi})"}
+
+%if %{with python3}
+%{__make} -j1 -C src pywrap \
+	CC="%{__cc}" \
+	CFLAGS="%{rpmcppflags} %{rpmcflags} -D_FILE_OFFSET_BITS=64" \
+	LDFLAGS="%{rpmldflags} -lpthread" \
+	LIBDIR=%{_libdir} \
+	PYPREFIX=python3
+%endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%{__make} install %{?with_python:install-pywrap} %{?with_ruby:install-rubywrap} \
+%{__make} install %{?with_python2:install-pywrap} %{?with_ruby:install-rubywrap} \
 	LIBDIR=$RPM_BUILD_ROOT%{_libdir} \
 	SHLIBDIR=$RPM_BUILD_ROOT/%{_lib} \
+	PYPREFIX=python2 \
+	PYTHON=%{__python} \
 	RUBYINSTALL=$RPM_BUILD_ROOT%{ruby_vendorarchdir} \
-	DESTDIR=$RPM_BUILD_ROOT \
+	DESTDIR=$RPM_BUILD_ROOT
 
 # make symlink across / absolute
 ln -sf /%{_lib}/$(basename $RPM_BUILD_ROOT/%{_lib}/libselinux.so.*) \
 	$RPM_BUILD_ROOT%{_libdir}/libselinux.so
+
+%if %{with python2}
+%py_comp $RPM_BUILD_ROOT%{py_sitedir}/selinux
+%py_ocomp $RPM_BUILD_ROOT%{py_sitedir}/selinux
+%py_postclean
+%endif
+
+%if %{with python3}
+%{__make} -C src install-pywrap \
+	DESTDIR=$RPM_BUILD_ROOT \
+	PYPREFIX=python3 \
+	PYTHON=%{__python3}
+
+%py3_comp $RPM_BUILD_ROOT%{py3_sitedir}/selinux
+%py3_ocomp $RPM_BUILD_ROOT%{py3_sitedir}/selinux
+%endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -200,7 +248,53 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libselinux.so
 %{_pkgconfigdir}/libselinux.pc
 %{_includedir}/selinux
-%{_mandir}/man3/*.3*
+%{_mandir}/man3/avc_*.3*
+%{_mandir}/man3/checkPasswdAccess.3*
+%{_mandir}/man3/context_*.3*
+%{_mandir}/man3/fgetfilecon*.3*
+%{_mandir}/man3/fini_selinuxmnt.3*
+%{_mandir}/man3/freecon*.3*
+%{_mandir}/man3/fsetfilecon*.3*
+%{_mandir}/man3/get_default_context*.3*
+%{_mandir}/man3/get_default_type.3*
+%{_mandir}/man3/get_ordered_context_list*.3*
+%{_mandir}/man3/getcon*.3*
+%{_mandir}/man3/getexeccon*.3*
+%{_mandir}/man3/getfilecon*.3*
+%{_mandir}/man3/getfscreatecon*.3*
+%{_mandir}/man3/getkeycreatecon*.3*
+%{_mandir}/man3/getpeercon*.3*
+%{_mandir}/man3/getpidcon*.3*
+%{_mandir}/man3/getprevcon*.3*
+%{_mandir}/man3/getseuserbyname.3*
+%{_mandir}/man3/getsockcreatecon*.3*
+%{_mandir}/man3/init_selinuxmnt.3*
+%{_mandir}/man3/is_context_customizable.3*
+%{_mandir}/man3/is_selinux_*.3*
+%{_mandir}/man3/lgetfilecon*.3*
+%{_mandir}/man3/lsetfilecon*.3*
+%{_mandir}/man3/manual_user_enter_context.3*
+%{_mandir}/man3/matchmediacon.3*
+%{_mandir}/man3/matchpathcon*.3*
+%{_mandir}/man3/mode_to_security_class.3*
+%{_mandir}/man3/print_access_vector.3*
+%{_mandir}/man3/query_user_context.3*
+%{_mandir}/man3/rpm_execcon.3*
+%{_mandir}/man3/security_*.3*
+%{_mandir}/man3/selabel_*.3*
+%{_mandir}/man3/selinux_*.3*
+%{_mandir}/man3/set_matchpathcon_*.3*
+%{_mandir}/man3/set_selinuxmnt.3*
+%{_mandir}/man3/setcon*.3*
+%{_mandir}/man3/setexeccon*.3*
+%{_mandir}/man3/setfilecon*.3*
+%{_mandir}/man3/setfscreatecon*.3*
+%{_mandir}/man3/setkeycreatecon*.3*
+%{_mandir}/man3/setsockcreatecon*.3*
+%{_mandir}/man3/sidget.3*
+%{_mandir}/man3/sidput.3*
+%{_mandir}/man3/string_to_av_perm.3*
+%{_mandir}/man3/string_to_security_class.3*
 %{_mandir}/man5/file_contexts.5*
 %{_mandir}/man5/media.5*
 %{_mandir}/man5/selabel_*.5*
@@ -243,13 +337,23 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man8/setenforce.8*
 %{_mandir}/man8/togglesebool.8*
 
-%if %{with python}
+%if %{with python2}
 %files -n python-selinux
 %defattr(644,root,root,755)
 %dir %{py_sitedir}/selinux
 %attr(755,root,root) %{py_sitedir}/selinux/_selinux.so
 %attr(755,root,root) %{py_sitedir}/selinux/audit2why.so
-%{py_sitedir}/selinux/__init__.py
+%{py_sitedir}/selinux/__init__.py[co]
+%endif
+
+%if %{with python3}
+%files -n python3-selinux
+%defattr(644,root,root,755)
+%dir %{py3_sitedir}/selinux
+%attr(755,root,root) %{py3_sitedir}/selinux/_selinux.so
+%attr(755,root,root) %{py3_sitedir}/selinux/audit2why.so
+%{py3_sitedir}/selinux/__init__.py
+%{py3_sitedir}/selinux/__pycache__
 %endif
 
 %if %{with ruby}
