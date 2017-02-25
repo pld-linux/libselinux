@@ -10,17 +10,17 @@
 %undefine	with_python3
 %endif
 
-%define	sepol_ver	2.5
+%define	sepol_ver	2.6
 Summary:	SELinux library and simple utilities
 Summary(pl.UTF-8):	Biblioteka SELinux i proste narzędzia
 Name:		libselinux
-Version:	2.5
-Release:	2
+Version:	2.6
+Release:	1
 License:	Public Domain
 Group:		Libraries
 #Source0Download: https://github.com/SELinuxProject/selinux/wiki/Releases
-Source0:	https://raw.githubusercontent.com/wiki/SELinuxProject/selinux/files/releases/20160223/%{name}-%{version}.tar.gz
-# Source0-md5:	d1399f5c2fd2fbe0e9603d5143b30367
+Source0:	https://raw.githubusercontent.com/wiki/SELinuxProject/selinux/files/releases/20161014/%{name}-%{version}.tar.gz
+# Source0-md5:	0e066ba6d6e590ba4b53eed64905d901
 Patch0:		%{name}-vcontext-selinux.patch
 URL:		https://github.com/SELinuxProject/selinux/wiki
 %ifarch ppc ppc64 sparc sparcv9 sparc64
@@ -172,6 +172,7 @@ Wiązania języka Ruby do biblioteki SELinux.
 	LDFLAGS="%{rpmldflags} -lpcre -lpthread" \
 	LIBDIR=%{_libdir} \
 	PYPREFIX=python2 \
+	PYSITEDIR=%{py_sitedir} \
 	PYTHON=%{__python} \
 	%{?with_ruby:RUBYINC="$(pkg-config --cflags ruby-%{ruby_abi})"}
 
@@ -182,6 +183,7 @@ Wiązania języka Ruby do biblioteki SELinux.
 	LDFLAGS="%{rpmldflags} -lpthread" \
 	LIBDIR=%{_libdir} \
 	PYPREFIX=python3 \
+	PYSITEDIR=%{py3_sitedir} \
 	PYTHON=%{__python3}
 %endif
 
@@ -192,6 +194,7 @@ rm -rf $RPM_BUILD_ROOT
 	LIBDIR=$RPM_BUILD_ROOT%{_libdir} \
 	SHLIBDIR=$RPM_BUILD_ROOT/%{_lib} \
 	PYPREFIX=python2 \
+	PYSITEDIR=$RPM_BUILD_ROOT%{py_sitedir} \
 	PYTHON=%{__python} \
 	RUBYINSTALL=$RPM_BUILD_ROOT%{ruby_vendorarchdir} \
 	DESTDIR=$RPM_BUILD_ROOT
@@ -211,6 +214,7 @@ ln -sf /%{_lib}/$(basename $RPM_BUILD_ROOT/%{_lib}/libselinux.so.*) \
 	DESTDIR=$RPM_BUILD_ROOT \
 	LIBDIR=$RPM_BUILD_ROOT%{_libdir} \
 	PYPREFIX=python3 \
+	PYSITEDIR=$RPM_BUILD_ROOT%{py3_sitedir} \
 	PYTHON=%{__python3}
 
 %py3_comp $RPM_BUILD_ROOT%{py3_sitedir}/selinux
@@ -344,7 +348,7 @@ rm -rf $RPM_BUILD_ROOT
 %files -n python-selinux
 %defattr(644,root,root,755)
 %dir %{py_sitedir}/selinux
-%attr(755,root,root) %{py_sitedir}/selinux/_selinux.so
+%attr(755,root,root) %{py_sitedir}/_selinux.so
 %attr(755,root,root) %{py_sitedir}/selinux/audit2why.so
 %{py_sitedir}/selinux/__init__.py[co]
 %endif
@@ -353,7 +357,7 @@ rm -rf $RPM_BUILD_ROOT
 %files -n python3-selinux
 %defattr(644,root,root,755)
 %dir %{py3_sitedir}/selinux
-%attr(755,root,root) %{py3_sitedir}/selinux/_selinux.so
+%attr(755,root,root) %{py3_sitedir}/_selinux.so
 %attr(755,root,root) %{py3_sitedir}/selinux/audit2why.so
 %{py3_sitedir}/selinux/__init__.py
 %{py3_sitedir}/selinux/__pycache__
