@@ -10,17 +10,17 @@
 %undefine	with_python3
 %endif
 
-%define	sepol_ver	2.6
+%define	sepol_ver	2.7
 Summary:	SELinux library and simple utilities
 Summary(pl.UTF-8):	Biblioteka SELinux i proste narzędzia
 Name:		libselinux
-Version:	2.6
-Release:	2
+Version:	2.7
+Release:	1
 License:	Public Domain
 Group:		Libraries
 #Source0Download: https://github.com/SELinuxProject/selinux/wiki/Releases
-Source0:	https://raw.githubusercontent.com/wiki/SELinuxProject/selinux/files/releases/20161014/%{name}-%{version}.tar.gz
-# Source0-md5:	0e066ba6d6e590ba4b53eed64905d901
+Source0:	https://raw.githubusercontent.com/wiki/SELinuxProject/selinux/files/releases/20170804/%{name}-%{version}.tar.gz
+# Source0-md5:	1d48ee4e9fadd76794d70c806b69ba7d
 Patch0:		%{name}-vcontext-selinux.patch
 URL:		https://github.com/SELinuxProject/selinux/wiki
 %ifarch ppc ppc64 sparc sparcv9 sparc64
@@ -193,6 +193,7 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install %{?with_python2:install-pywrap} %{?with_ruby:install-rubywrap} \
 	LIBDIR=$RPM_BUILD_ROOT%{_libdir} \
 	SHLIBDIR=$RPM_BUILD_ROOT/%{_lib} \
+	LIBSEPOLA=%{_libdir}/libsepol.a \
 	PYPREFIX=python2 \
 	PYSITEDIR=$RPM_BUILD_ROOT%{py_sitedir} \
 	PYTHON=%{__python} \
@@ -213,6 +214,7 @@ ln -sf /%{_lib}/$(basename $RPM_BUILD_ROOT/%{_lib}/libselinux.so.*) \
 %{__make} -C src install-pywrap \
 	DESTDIR=$RPM_BUILD_ROOT \
 	LIBDIR=$RPM_BUILD_ROOT%{_libdir} \
+	LIBSEPOLA=%{_libdir}/libsepol.a \
 	PYPREFIX=python3 \
 	PYSITEDIR=$RPM_BUILD_ROOT%{py3_sitedir} \
 	PYTHON=%{__python3}
@@ -229,7 +231,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc ChangeLog LICENSE
+%doc LICENSE
 %attr(755,root,root) /%{_lib}/libselinux.so.*
 %{_mandir}/man5/booleans.5*
 %{_mandir}/man5/customizable_types.5*
@@ -357,8 +359,8 @@ rm -rf $RPM_BUILD_ROOT
 %files -n python3-selinux
 %defattr(644,root,root,755)
 %dir %{py3_sitedir}/selinux
-%attr(755,root,root) %{py3_sitedir}/_selinux.so
-%attr(755,root,root) %{py3_sitedir}/selinux/audit2why.so
+%attr(755,root,root) %{py3_sitedir}/_selinux.cpython-*.so
+%attr(755,root,root) %{py3_sitedir}/selinux/audit2why.cpython-*.so
 %{py3_sitedir}/selinux/__init__.py
 %{py3_sitedir}/selinux/__pycache__
 %endif
