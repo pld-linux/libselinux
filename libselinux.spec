@@ -10,17 +10,17 @@
 %undefine	with_python3
 %endif
 
-%define	sepol_ver	2.7
+%define	sepol_ver	2.8
 Summary:	SELinux library and simple utilities
 Summary(pl.UTF-8):	Biblioteka SELinux i proste narzędzia
 Name:		libselinux
-Version:	2.7
-Release:	2
+Version:	2.8
+Release:	1
 License:	Public Domain
 Group:		Libraries
 #Source0Download: https://github.com/SELinuxProject/selinux/wiki/Releases
-Source0:	https://raw.githubusercontent.com/wiki/SELinuxProject/selinux/files/releases/20170804/%{name}-%{version}.tar.gz
-# Source0-md5:	1d48ee4e9fadd76794d70c806b69ba7d
+Source0:	https://raw.githubusercontent.com/wiki/SELinuxProject/selinux/files/releases/20180524/%{name}-%{version}.tar.gz
+# Source0-md5:	56057e60192b21122c1aede8ff723ca2
 Patch0:		%{name}-vcontext-selinux.patch
 URL:		https://github.com/SELinuxProject/selinux/wiki
 %ifarch ppc ppc64 sparc sparcv9 sparc64
@@ -191,13 +191,13 @@ Wiązania języka Ruby do biblioteki SELinux.
 rm -rf $RPM_BUILD_ROOT
 
 %{__make} install %{?with_python2:install-pywrap} %{?with_ruby:install-rubywrap} \
-	LIBDIR=$RPM_BUILD_ROOT%{_libdir} \
-	SHLIBDIR=$RPM_BUILD_ROOT/%{_lib} \
+	LIBDIR=%{_libdir} \
+	SHLIBDIR=/%{_lib} \
 	LIBSEPOLA=%{_libdir}/libsepol.a \
 	PYPREFIX=python2 \
-	PYSITEDIR=$RPM_BUILD_ROOT%{py_sitedir} \
+	PYSITEDIR=%{py_sitedir} \
 	PYTHON=%{__python} \
-	RUBYINSTALL=$RPM_BUILD_ROOT%{ruby_vendorarchdir} \
+	RUBYINSTALL=%{ruby_vendorarchdir} \
 	DESTDIR=$RPM_BUILD_ROOT
 
 # make symlink across / absolute
@@ -213,10 +213,10 @@ ln -sf /%{_lib}/$(basename $RPM_BUILD_ROOT/%{_lib}/libselinux.so.*) \
 %if %{with python3}
 %{__make} -C src install-pywrap \
 	DESTDIR=$RPM_BUILD_ROOT \
-	LIBDIR=$RPM_BUILD_ROOT%{_libdir} \
+	LIBDIR=%{_libdir} \
 	LIBSEPOLA=%{_libdir}/libsepol.a \
 	PYPREFIX=python3 \
-	PYSITEDIR=$RPM_BUILD_ROOT%{py3_sitedir} \
+	PYSITEDIR=%{py3_sitedir} \
 	PYTHON=%{__python3}
 
 %py3_comp $RPM_BUILD_ROOT%{py3_sitedir}/selinux
