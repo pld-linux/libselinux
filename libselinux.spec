@@ -193,7 +193,6 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install %{?with_python2:install-pywrap} %{?with_ruby:install-rubywrap} \
 	LIBDIR=%{_libdir} \
 	SHLIBDIR=/%{_lib} \
-	LIBSEPOLA=%{_libdir}/libsepol.a \
 	PYPREFIX=python2 \
 	PYSITEDIR=%{py_sitedir} \
 	PYTHON=%{__python} \
@@ -214,7 +213,6 @@ ln -sf /%{_lib}/$(basename $RPM_BUILD_ROOT/%{_lib}/libselinux.so.*) \
 %{__make} -C src install-pywrap \
 	DESTDIR=$RPM_BUILD_ROOT \
 	LIBDIR=%{_libdir} \
-	LIBSEPOLA=%{_libdir}/libsepol.a \
 	PYPREFIX=python3 \
 	PYSITEDIR=%{py3_sitedir} \
 	PYTHON=%{__python3}
