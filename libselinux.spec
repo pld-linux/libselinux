@@ -10,17 +10,17 @@
 %undefine	with_python3
 %endif
 
-%define	sepol_ver	2.8
+%define	sepol_ver	2.9
 Summary:	SELinux library and simple utilities
 Summary(pl.UTF-8):	Biblioteka SELinux i proste narzędzia
 Name:		libselinux
-Version:	2.8
-Release:	2
+Version:	2.9
+Release:	1
 License:	Public Domain
 Group:		Libraries
 #Source0Download: https://github.com/SELinuxProject/selinux/wiki/Releases
-Source0:	https://raw.githubusercontent.com/wiki/SELinuxProject/selinux/files/releases/20180524/%{name}-%{version}.tar.gz
-# Source0-md5:	56057e60192b21122c1aede8ff723ca2
+Source0:	https://github.com/SELinuxProject/selinux/releases/download/20190315/%{name}-%{version}.tar.gz
+# Source0-md5:	bb449431b6ed55a0a0496dbc366d6e31
 Patch0:		%{name}-vcontext-selinux.patch
 URL:		https://github.com/SELinuxProject/selinux/wiki
 %ifarch ppc ppc64 sparc sparcv9 sparc64
