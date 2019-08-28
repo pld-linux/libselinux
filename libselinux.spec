@@ -169,7 +169,7 @@ Wiązania języka Ruby do biblioteki SELinux.
 %{__make} -j1 all %{?with_python2:pywrap} %{?with_ruby:rubywrap} \
 	CC="%{__cc}" \
 	CFLAGS="%{rpmcppflags} %{rpmcflags} -D_FILE_OFFSET_BITS=64" \
-	LDFLAGS="%{rpmldflags} -lpcre -lpthread" \
+	LDFLAGS="%{rpmldflags}" \
 	LIBDIR=%{_libdir} \
 	PYPREFIX=python2 \
 	PYSITEDIR=%{py_sitedir} \
@@ -180,7 +180,7 @@ Wiązania języka Ruby do biblioteki SELinux.
 %{__make} -j1 -C src pywrap \
 	CC="%{__cc}" \
 	CFLAGS="%{rpmcppflags} %{rpmcflags} -D_FILE_OFFSET_BITS=64" \
-	LDFLAGS="%{rpmldflags} -lpthread" \
+	LDFLAGS="%{rpmldflags}" \
 	LIBDIR=%{_libdir} \
 	PYPREFIX=python3 \
 	PYSITEDIR=%{py3_sitedir} \
@@ -249,6 +249,24 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man5/user_contexts.5*
 %{_mandir}/man5/virtual_domain_context.5*
 %{_mandir}/man5/virtual_image_context.5*
+%lang(ru) %{_mandir}/ru/man5/booleans.5*
+%lang(ru) %{_mandir}/ru/man5/customizable_types.5*
+%lang(ru) %{_mandir}/ru/man5/default_contexts.5*
+%lang(ru) %{_mandir}/ru/man5/default_type.5*
+%lang(ru) %{_mandir}/ru/man5/failsafe_context.5*
+%lang(ru) %{_mandir}/ru/man5/file_contexts.homedirs.5*
+%lang(ru) %{_mandir}/ru/man5/file_contexts.local.5
+%lang(ru) %{_mandir}/ru/man5/file_contexts.subs.5
+%lang(ru) %{_mandir}/ru/man5/file_contexts.subs_dist.5
+%lang(ru) %{_mandir}/ru/man5/local.users.5*
+%lang(ru) %{_mandir}/ru/man5/removable_context.5*
+%lang(ru) %{_mandir}/ru/man5/secolor.conf.5*
+%lang(ru) %{_mandir}/ru/man5/securetty_types.5*
+%lang(ru) %{_mandir}/ru/man5/service_seusers.5*
+%lang(ru) %{_mandir}/ru/man5/seusers.5*
+%lang(ru) %{_mandir}/ru/man5/user_contexts.5*
+%lang(ru) %{_mandir}/ru/man5/virtual_domain_context.5*
+%lang(ru) %{_mandir}/ru/man5/virtual_image_context.5*
 
 %files devel
 %defattr(644,root,root,755)
@@ -307,6 +325,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man5/selabel_*.5*
 %{_mandir}/man5/sepgsql_contexts.5*
 %{_mandir}/man5/x_contexts.5*
+%lang(ru) %{_mandir}/ru/man5/file_contexts.5*
+%lang(ru) %{_mandir}/ru/man5/media.5*
+%lang(ru) %{_mandir}/ru/man5/selabel_*.5*
+%lang(ru) %{_mandir}/ru/man5/sepgsql_contexts.5*
+%lang(ru) %{_mandir}/ru/man5/x_contexts.5*
 
 %files static
 %defattr(644,root,root,755)
@@ -343,6 +366,15 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man8/selinux*.8*
 %{_mandir}/man8/setenforce.8*
 %{_mandir}/man8/togglesebool.8*
+%lang(ru) %{_mandir}/ru/man8/avcstat.8*
+%lang(ru) %{_mandir}/ru/man8/booleans.8*
+%lang(ru) %{_mandir}/ru/man8/getenforce.8*
+%lang(ru) %{_mandir}/ru/man8/getsebool.8*
+%lang(ru) %{_mandir}/ru/man8/matchpathcon.8*
+%lang(ru) %{_mandir}/ru/man8/sefcontext_compile.8*
+%lang(ru) %{_mandir}/ru/man8/selinux*.8*
+%lang(ru) %{_mandir}/ru/man8/setenforce.8*
+%lang(ru) %{_mandir}/ru/man8/togglesebool.8*
 
 %if %{with python2}
 %files -n python-selinux
