@@ -15,7 +15,7 @@ Summary:	SELinux library and simple utilities
 Summary(pl.UTF-8):	Biblioteka SELinux i proste narzędzia
 Name:		libselinux
 Version:	2.9
-Release:	2
+Release:	3
 License:	Public Domain
 Group:		Libraries
 #Source0Download: https://github.com/SELinuxProject/selinux/wiki/Releases
@@ -181,6 +181,8 @@ Wiązania języka Ruby do biblioteki SELinux.
 	CC="%{__cc}" \
 	CFLAGS="%{rpmcppflags} %{rpmcflags} -D_FILE_OFFSET_BITS=64" \
 	LDFLAGS="%{rpmldflags}" \
+	PYINC="$(python3-config --cflags)" \
+	PYLIBS="$(python3-config --libs --embed)" \
 	LIBDIR=%{_libdir} \
 	PYPREFIX=python3 \
 	PYSITEDIR=%{py3_sitedir} \
