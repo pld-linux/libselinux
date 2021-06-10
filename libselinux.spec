@@ -1,27 +1,19 @@
 #
 # Conditional build:
-%bcond_without	python	# Python (any) bindings
-%bcond_without	python2	# Python 2 binding
-%bcond_without	python3	# Python 3 binding
+%bcond_without	python	# Python 3 binding
 %bcond_without	ruby	# Ruby binding
 
-%if %{without python}
-%undefine	with_python2
-%undefine	with_python3
-%endif
-
-%define	sepol_ver	2.9
+%define	sepol_ver	3.1
 Summary:	SELinux library and simple utilities
 Summary(pl.UTF-8):	Biblioteka SELinux i proste narzędzia
 Name:		libselinux
-Version:	2.9
-Release:	5
+Version:	3.1
+Release:	1
 License:	Public Domain
 Group:		Libraries
 #Source0Download: https://github.com/SELinuxProject/selinux/wiki/Releases
-Source0:	https://github.com/SELinuxProject/selinux/releases/download/20190315/%{name}-%{version}.tar.gz
-# Source0-md5:	bb449431b6ed55a0a0496dbc366d6e31
-Patch0:		%{name}-vcontext-selinux.patch
+Source0:	https://github.com/SELinuxProject/selinux/releases/download/20200710/%{name}-%{version}.tar.gz
+# Source0-md5:	693680c021feb69a4b258b0370021461
 URL:		https://github.com/SELinuxProject/selinux/wiki
 %ifarch ppc ppc64 sparc sparcv9 sparc64
 BuildRequires:	gcc >= 5:3.4
@@ -33,8 +25,7 @@ BuildRequires:	libsepol-devel >= %{sepol_ver}
 %{?with_python:BuildRequires:	libsepol-static >= %{sepol_ver}}
 BuildRequires:	pcre-devel
 BuildRequires:	pkgconfig
-%{?with_python2:BuildRequires:	python-devel >= 2}
-%{?with_python3:BuildRequires:	python3-devel >= 1:3.2}
+%{?with_python:BuildRequires:	python3-devel >= 1:3.2}
 %{?with_python:BuildRequires:	rpm-pythonprov}
 BuildRequires:	rpmbuild(macros) >= 1.714
 %{?with_ruby:BuildRequires:	ruby-devel >= 1.9}
@@ -43,7 +34,7 @@ BuildRequires:	sed >= 4.0
 %{?with_ruby:BuildRequires:	swig-ruby}
 Requires:	glibc(tls)
 Requires:	libsepol >= %{sepol_ver}
-Obsoletes:	selinux-libs
+Obsoletes:	selinux-libs < 20030601
 Conflicts:	SysVinit < 2.86-4
 ExcludeArch:	i386
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -87,7 +78,7 @@ Summary(pl.UTF-8):	Pliki nagłówkowe i dokumentacja programistyczna
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	libsepol-devel >= %{sepol_ver}
-Obsoletes:	selinux-libs-devel
+Obsoletes:	selinux-libs-devel < 20030601
 
 %description devel
 Header files and devel documentation for SELinux libraries.
@@ -100,7 +91,7 @@ Summary:	Static SELinux library
 Summary(pl.UTF-8):	Biblioteki statyczne SELinux
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
-Obsoletes:	selinux-static
+Obsoletes:	selinux-static < 20030601
 
 %description static
 SELinux static libraries.
@@ -113,25 +104,13 @@ Summary:	SELinux utils
 Summary(pl.UTF-8):	Narzędzia SELinux
 Group:		Applications/System
 Requires:	%{name} = %{version}-%{release}
-Obsoletes:	selinux-utils
+Obsoletes:	selinux-utils < 20030601
 
 %description utils
 SELinux utils.
 
 %description utils -l pl.UTF-8
 Narzędzia SELinux.
-
-%package -n python-selinux
-Summary:	Python 2 binding for SELinux library
-Summary(pl.UTF-8):	Wiązania Pythona 2 do biblioteki SELinux
-Group:		Libraries/Python
-Requires:	%{name} = %{version}-%{release}
-
-%description -n python-selinux
-Python 2 binding for SELinux library.
-
-%description -n python-selinux -l pl.UTF-8
-Wiązania Pythona 2 do biblioteki SELinux.
 
 %package -n python3-selinux
 Summary:	Python 3 binding for SELinux library
@@ -159,45 +138,27 @@ Wiązania języka Ruby do biblioteki SELinux.
 
 %prep
 %setup -q
-%patch0 -p1
-
-# "-z defs" doesn't mix with --as-needed when some object needs symbols from
-# ld.so (because of __thread variable in this case)
-%{__sed} -i -e 's/-z,defs,//' src/Makefile
 
 %build
-%{__make} -j1 all %{?with_python2:pywrap} %{?with_ruby:rubywrap} \
+%{__make} -j1 all %{?with_python:pywrap} %{?with_ruby:rubywrap} \
 	CC="%{__cc}" \
 	CFLAGS="%{rpmcppflags} %{rpmcflags} -D_FILE_OFFSET_BITS=64" \
 	LDFLAGS="%{rpmldflags}" \
-	LIBDIR=%{_libdir} \
-	PYPREFIX=python2 \
-	PYSITEDIR=%{py_sitedir} \
-	PYTHON=%{__python} \
-	%{?with_ruby:RUBYINC="$(pkg-config --cflags ruby-%{ruby_abi})"}
-
-%if %{with python3}
-%{__make} -j1 -C src pywrap \
-	CC="%{__cc}" \
-	CFLAGS="%{rpmcppflags} %{rpmcflags} -D_FILE_OFFSET_BITS=64" \
-	LDFLAGS="%{rpmldflags}" \
-	PYINC="$(python3-config --cflags)" \
-	PYLIBS="$(python3-config --libs --embed)" \
 	LIBDIR=%{_libdir} \
 	PYPREFIX=python3 \
 	PYSITEDIR=%{py3_sitedir} \
-	PYTHON=%{__python3}
-%endif
+	PYTHON=%{__python3} \
+	%{?with_ruby:RUBYINC="$(pkg-config --cflags ruby-%{ruby_abi})"}
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%{__make} install %{?with_python2:install-pywrap} %{?with_ruby:install-rubywrap} \
+%{__make} install %{?with_python:install-pywrap} %{?with_ruby:install-rubywrap} \
 	LIBDIR=%{_libdir} \
 	SHLIBDIR=/%{_lib} \
-	PYPREFIX=python2 \
-	PYSITEDIR=%{py_sitedir} \
-	PYTHON=%{__python} \
+	PYPREFIX=python3 \
+	PYSITEDIR=%{py3_sitedir} \
+	PYTHON=%{__python3} \
 	RUBYINSTALL=%{ruby_vendorarchdir} \
 	DESTDIR=$RPM_BUILD_ROOT
 
@@ -205,20 +166,7 @@ rm -rf $RPM_BUILD_ROOT
 ln -sf /%{_lib}/$(basename $RPM_BUILD_ROOT/%{_lib}/libselinux.so.*) \
 	$RPM_BUILD_ROOT%{_libdir}/libselinux.so
 
-%if %{with python2}
-%py_comp $RPM_BUILD_ROOT%{py_sitedir}/selinux
-%py_ocomp $RPM_BUILD_ROOT%{py_sitedir}/selinux
-%py_postclean
-%endif
-
-%if %{with python3}
-%{__make} -C src install-pywrap \
-	DESTDIR=$RPM_BUILD_ROOT \
-	LIBDIR=%{_libdir} \
-	PYPREFIX=python3 \
-	PYSITEDIR=%{py3_sitedir} \
-	PYTHON=%{__python3}
-
+%if %{with python}
 %py3_comp $RPM_BUILD_ROOT%{py3_sitedir}/selinux
 %py3_ocomp $RPM_BUILD_ROOT%{py3_sitedir}/selinux
 %endif
@@ -233,7 +181,6 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc LICENSE
 %attr(755,root,root) /%{_lib}/libselinux.so.*
-%{_mandir}/man5/booleans.5*
 %{_mandir}/man5/customizable_types.5*
 %{_mandir}/man5/default_contexts.5*
 %{_mandir}/man5/default_type.5*
@@ -242,7 +189,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man5/file_contexts.local.5
 %{_mandir}/man5/file_contexts.subs.5
 %{_mandir}/man5/file_contexts.subs_dist.5
-%{_mandir}/man5/local.users.5*
 %{_mandir}/man5/removable_context.5*
 %{_mandir}/man5/secolor.conf.5*
 %{_mandir}/man5/securetty_types.5*
@@ -251,7 +197,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man5/user_contexts.5*
 %{_mandir}/man5/virtual_domain_context.5*
 %{_mandir}/man5/virtual_image_context.5*
-%lang(ru) %{_mandir}/ru/man5/booleans.5*
 %lang(ru) %{_mandir}/ru/man5/customizable_types.5*
 %lang(ru) %{_mandir}/ru/man5/default_contexts.5*
 %lang(ru) %{_mandir}/ru/man5/default_type.5*
@@ -260,7 +205,6 @@ rm -rf $RPM_BUILD_ROOT
 %lang(ru) %{_mandir}/ru/man5/file_contexts.local.5
 %lang(ru) %{_mandir}/ru/man5/file_contexts.subs.5
 %lang(ru) %{_mandir}/ru/man5/file_contexts.subs_dist.5
-%lang(ru) %{_mandir}/ru/man5/local.users.5*
 %lang(ru) %{_mandir}/ru/man5/removable_context.5*
 %lang(ru) %{_mandir}/ru/man5/secolor.conf.5*
 %lang(ru) %{_mandir}/ru/man5/securetty_types.5*
@@ -351,6 +295,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_sbindir}/matchpathcon
 %attr(755,root,root) %{_sbindir}/policyvers
 %attr(755,root,root) %{_sbindir}/selabel_digest
+%attr(755,root,root) %{_sbindir}/selabel_get_digests_all_partial_matches
 %attr(755,root,root) %{_sbindir}/selabel_lookup
 %attr(755,root,root) %{_sbindir}/selabel_lookup_best_match
 %attr(755,root,root) %{_sbindir}/selabel_partial_match
@@ -359,6 +304,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_sbindir}/sefcontext_compile
 %attr(755,root,root) %{_sbindir}/setfilecon
 %attr(755,root,root) %{_sbindir}/togglesebool
+%attr(755,root,root) %{_sbindir}/validatetrans
 %{_mandir}/man8/avcstat.8*
 %{_mandir}/man8/booleans.8*
 %{_mandir}/man8/getenforce.8*
@@ -378,23 +324,16 @@ rm -rf $RPM_BUILD_ROOT
 %lang(ru) %{_mandir}/ru/man8/setenforce.8*
 %lang(ru) %{_mandir}/ru/man8/togglesebool.8*
 
-%if %{with python2}
-%files -n python-selinux
-%defattr(644,root,root,755)
-%dir %{py_sitedir}/selinux
-%attr(755,root,root) %{py_sitedir}/_selinux.so
-%attr(755,root,root) %{py_sitedir}/selinux/audit2why.so
-%{py_sitedir}/selinux/__init__.py[co]
-%endif
-
-%if %{with python3}
+%if %{with python}
 %files -n python3-selinux
 %defattr(644,root,root,755)
 %dir %{py3_sitedir}/selinux
 %attr(755,root,root) %{py3_sitedir}/_selinux.cpython-*.so
+%attr(755,root,root) %{py3_sitedir}/selinux/_selinux.cpython-*.so
 %attr(755,root,root) %{py3_sitedir}/selinux/audit2why.cpython-*.so
 %{py3_sitedir}/selinux/__init__.py
 %{py3_sitedir}/selinux/__pycache__
+%{py3_sitedir}/selinux-%{version}-py*.egg-info
 %endif
 
 %if %{with ruby}
