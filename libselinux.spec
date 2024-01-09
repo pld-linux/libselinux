@@ -3,17 +3,17 @@
 %bcond_without	python	# Python 3 binding
 %bcond_without	ruby	# Ruby binding
 
-%define	sepol_ver	3.1
+%define	sepol_ver	3.6
 Summary:	SELinux library and simple utilities
 Summary(pl.UTF-8):	Biblioteka SELinux i proste narzędzia
 Name:		libselinux
-Version:	3.1
-Release:	2
+Version:	3.6
+Release:	1
 License:	Public Domain
 Group:		Libraries
 #Source0Download: https://github.com/SELinuxProject/selinux/wiki/Releases
-Source0:	https://github.com/SELinuxProject/selinux/releases/download/20200710/%{name}-%{version}.tar.gz
-# Source0-md5:	693680c021feb69a4b258b0370021461
+Source0:	https://github.com/SELinuxProject/selinux/releases/download/%{version}/%{name}-%{version}.tar.gz
+# Source0-md5:	06149dae0a3c3af01dde4bb25d314b93
 URL:		https://github.com/SELinuxProject/selinux/wiki
 %ifarch ppc ppc64 sparc sparcv9 sparc64
 BuildRequires:	gcc >= 5:3.4
@@ -23,9 +23,10 @@ BuildRequires:	gcc >= 5:3.2
 BuildRequires:	glibc-devel >= 6:2.3
 BuildRequires:	libsepol-devel >= %{sepol_ver}
 %{?with_python:BuildRequires:	libsepol-static >= %{sepol_ver}}
-BuildRequires:	pcre-devel
+BuildRequires:	pcre2-8-devel
 BuildRequires:	pkgconfig
 %{?with_python:BuildRequires:	python3-devel >= 1:3.2}
+%{?with_python:BuildRequires:	python3-pip}
 %{?with_python:BuildRequires:	rpm-pythonprov}
 BuildRequires:	rpmbuild(macros) >= 1.714
 %{?with_ruby:BuildRequires:	ruby-devel >= 1.9}
@@ -197,22 +198,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man5/user_contexts.5*
 %{_mandir}/man5/virtual_domain_context.5*
 %{_mandir}/man5/virtual_image_context.5*
-%lang(ru) %{_mandir}/ru/man5/customizable_types.5*
-%lang(ru) %{_mandir}/ru/man5/default_contexts.5*
-%lang(ru) %{_mandir}/ru/man5/default_type.5*
-%lang(ru) %{_mandir}/ru/man5/failsafe_context.5*
-%lang(ru) %{_mandir}/ru/man5/file_contexts.homedirs.5*
-%lang(ru) %{_mandir}/ru/man5/file_contexts.local.5
-%lang(ru) %{_mandir}/ru/man5/file_contexts.subs.5
-%lang(ru) %{_mandir}/ru/man5/file_contexts.subs_dist.5
-%lang(ru) %{_mandir}/ru/man5/removable_context.5*
-%lang(ru) %{_mandir}/ru/man5/secolor.conf.5*
-%lang(ru) %{_mandir}/ru/man5/securetty_types.5*
-%lang(ru) %{_mandir}/ru/man5/service_seusers.5*
-%lang(ru) %{_mandir}/ru/man5/seusers.5*
-%lang(ru) %{_mandir}/ru/man5/user_contexts.5*
-%lang(ru) %{_mandir}/ru/man5/virtual_domain_context.5*
-%lang(ru) %{_mandir}/ru/man5/virtual_image_context.5*
 
 %files devel
 %defattr(644,root,root,755)
@@ -236,6 +221,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/getkeycreatecon*.3*
 %{_mandir}/man3/getpeercon*.3*
 %{_mandir}/man3/getpidcon*.3*
+%{_mandir}/man3/getpidprevcon*.3*
 %{_mandir}/man3/getprevcon*.3*
 %{_mandir}/man3/getseuserbyname.3*
 %{_mandir}/man3/getsockcreatecon*.3*
@@ -258,6 +244,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/set_selinuxmnt.3*
 %{_mandir}/man3/setcon*.3*
 %{_mandir}/man3/setexeccon*.3*
+%{_mandir}/man3/setexecfilecon*.3*
 %{_mandir}/man3/setfilecon*.3*
 %{_mandir}/man3/setfscreatecon*.3*
 %{_mandir}/man3/setkeycreatecon*.3*
@@ -271,11 +258,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man5/selabel_*.5*
 %{_mandir}/man5/sepgsql_contexts.5*
 %{_mandir}/man5/x_contexts.5*
-%lang(ru) %{_mandir}/ru/man5/file_contexts.5*
-%lang(ru) %{_mandir}/ru/man5/media.5*
-%lang(ru) %{_mandir}/ru/man5/selabel_*.5*
-%lang(ru) %{_mandir}/ru/man5/sepgsql_contexts.5*
-%lang(ru) %{_mandir}/ru/man5/x_contexts.5*
 
 %files static
 %defattr(644,root,root,755)
@@ -290,6 +272,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_sbindir}/getenforce
 %attr(755,root,root) %{_sbindir}/getfilecon
 %attr(755,root,root) %{_sbindir}/getpidcon
+%attr(755,root,root) %{_sbindir}/getpidprevcon
+%attr(755,root,root) %{_sbindir}/getpolicyload
 %attr(755,root,root) %{_sbindir}/getsebool
 %attr(755,root,root) %{_sbindir}/getseuser
 %attr(755,root,root) %{_sbindir}/matchpathcon
@@ -314,15 +298,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man8/selinux*.8*
 %{_mandir}/man8/setenforce.8*
 %{_mandir}/man8/togglesebool.8*
-%lang(ru) %{_mandir}/ru/man8/avcstat.8*
-%lang(ru) %{_mandir}/ru/man8/booleans.8*
-%lang(ru) %{_mandir}/ru/man8/getenforce.8*
-%lang(ru) %{_mandir}/ru/man8/getsebool.8*
-%lang(ru) %{_mandir}/ru/man8/matchpathcon.8*
-%lang(ru) %{_mandir}/ru/man8/sefcontext_compile.8*
-%lang(ru) %{_mandir}/ru/man8/selinux*.8*
-%lang(ru) %{_mandir}/ru/man8/setenforce.8*
-%lang(ru) %{_mandir}/ru/man8/togglesebool.8*
 
 %if %{with python}
 %files -n python3-selinux
