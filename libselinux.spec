@@ -3,17 +3,17 @@
 %bcond_without	python	# Python 3 binding
 %bcond_without	ruby	# Ruby binding
 
-%define	sepol_ver	3.6
+%define	sepol_ver	3.7
 Summary:	SELinux library and simple utilities
 Summary(pl.UTF-8):	Biblioteka SELinux i proste narzędzia
 Name:		libselinux
-Version:	3.6
+Version:	3.7
 Release:	1
 License:	Public Domain
 Group:		Libraries
 #Source0Download: https://github.com/SELinuxProject/selinux/wiki/Releases
 Source0:	https://github.com/SELinuxProject/selinux/releases/download/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	06149dae0a3c3af01dde4bb25d314b93
+# Source0-md5:	ac0c812124d83faa7721928d0c01adc0
 URL:		https://github.com/SELinuxProject/selinux/wiki
 %ifarch ppc ppc64 sparc sparcv9 sparc64
 BuildRequires:	gcc >= 5:3.4
@@ -31,7 +31,7 @@ BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.714
 %{?with_ruby:BuildRequires:	ruby-devel >= 1.9}
 BuildRequires:	sed >= 4.0
-%{?with_python:BuildRequires:	swig-python}
+%{?with_python:BuildRequires:	swig-python >= 2}
 %{?with_ruby:BuildRequires:	swig-ruby}
 Requires:	glibc(tls)
 Requires:	libsepol >= %{sepol_ver}
