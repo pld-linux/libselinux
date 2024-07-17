@@ -8,12 +8,13 @@ Summary:	SELinux library and simple utilities
 Summary(pl.UTF-8):	Biblioteka SELinux i proste narzędzia
 Name:		libselinux
 Version:	3.7
-Release:	1
+Release:	2
 License:	Public Domain
 Group:		Libraries
 #Source0Download: https://github.com/SELinuxProject/selinux/wiki/Releases
 Source0:	https://github.com/SELinuxProject/selinux/releases/download/%{version}/%{name}-%{version}.tar.gz
 # Source0-md5:	ac0c812124d83faa7721928d0c01adc0
+Patch0:		%{name}-no-pip.patch
 URL:		https://github.com/SELinuxProject/selinux/wiki
 %ifarch ppc ppc64 sparc sparcv9 sparc64
 BuildRequires:	gcc >= 5:3.4
@@ -26,7 +27,7 @@ BuildRequires:	libsepol-devel >= %{sepol_ver}
 BuildRequires:	pcre2-8-devel
 BuildRequires:	pkgconfig
 %{?with_python:BuildRequires:	python3-devel >= 1:3.2}
-%{?with_python:BuildRequires:	python3-pip}
+%{?with_python:BuildRequires:	python3-setuptools}
 %{?with_python:BuildRequires:	rpm-pythonprov}
 BuildRequires:	rpmbuild(macros) >= 1.714
 %{?with_ruby:BuildRequires:	ruby-devel >= 1.9}
@@ -139,6 +140,7 @@ Wiązania języka Ruby do biblioteki SELinux.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 %{__make} -j1 all %{?with_python:pywrap} %{?with_ruby:rubywrap} \
