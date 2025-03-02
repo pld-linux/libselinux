@@ -140,7 +140,7 @@ Wiązania języka Ruby do biblioteki SELinux.
 
 %prep
 %setup -q
-%patch0 -p1
+%patch -P0 -p1
 
 %build
 %{__make} -j1 all %{?with_python:pywrap} %{?with_ruby:rubywrap} \
