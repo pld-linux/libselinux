@@ -3,17 +3,17 @@
 %bcond_without	python	# Python 3 binding
 %bcond_without	ruby	# Ruby binding
 
-%define	sepol_ver	3.7
+%define	sepol_ver	3.8
 Summary:	SELinux library and simple utilities
 Summary(pl.UTF-8):	Biblioteka SELinux i proste narzędzia
 Name:		libselinux
-Version:	3.7
-Release:	2
+Version:	3.8
+Release:	1
 License:	Public Domain
 Group:		Libraries
 #Source0Download: https://github.com/SELinuxProject/selinux/wiki/Releases
 Source0:	https://github.com/SELinuxProject/selinux/releases/download/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	ac0c812124d83faa7721928d0c01adc0
+# Source0-md5:	af4b7d1b3b2d32d4c1397604d66de76f
 Patch0:		%{name}-no-pip.patch
 URL:		https://github.com/SELinuxProject/selinux/wiki
 %ifarch ppc ppc64 sparc sparcv9 sparc64
@@ -280,6 +280,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_sbindir}/getseuser
 %attr(755,root,root) %{_sbindir}/matchpathcon
 %attr(755,root,root) %{_sbindir}/policyvers
+%attr(755,root,root) %{_sbindir}/selabel_compare
 %attr(755,root,root) %{_sbindir}/selabel_digest
 %attr(755,root,root) %{_sbindir}/selabel_get_digests_all_partial_matches
 %attr(755,root,root) %{_sbindir}/selabel_lookup
