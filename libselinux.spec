@@ -8,13 +8,14 @@ Summary:	SELinux library and simple utilities
 Summary(pl.UTF-8):	Biblioteka SELinux i proste narzędzia
 Name:		libselinux
 Version:	3.8
-Release:	1
+Release:	2
 License:	Public Domain
 Group:		Libraries
 #Source0Download: https://github.com/SELinuxProject/selinux/wiki/Releases
 Source0:	https://github.com/SELinuxProject/selinux/releases/download/%{version}/%{name}-%{version}.tar.gz
 # Source0-md5:	af4b7d1b3b2d32d4c1397604d66de76f
 Patch0:		%{name}-no-pip.patch
+Patch1:		%{name}-x32.patch
 URL:		https://github.com/SELinuxProject/selinux/wiki
 %ifarch ppc ppc64 sparc sparcv9 sparc64
 BuildRequires:	gcc >= 5:3.4
@@ -141,6 +142,7 @@ Wiązania języka Ruby do biblioteki SELinux.
 %prep
 %setup -q
 %patch -P0 -p1
+%patch -P1 -p1
 
 %build
 %{__make} -j1 all %{?with_python:pywrap} %{?with_ruby:rubywrap} \

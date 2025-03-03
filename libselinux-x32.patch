@@ -1,0 +1,75 @@
+From edf4812be9c7dd266c54d9cc6c9e06f10f12564f Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?=D0=BD=D0=B0=D0=B1?= <nabijaczleweli@nabijaczleweli.xyz>
+Date: Sat, 22 Feb 2025 23:09:30 +0100
+Subject: [PATCH 1/2] Don't inject matchpathcon_filespec_add64() ifdef
+ __x86_64__
+X-Mutt-PGP: OS
+
+As the code notes, it wants to add an
+  /* ABI backwards-compatible shim for non-LFS 32-bit systems */
+it tries to detect these with
+  #if defined(_FILE_OFFSET_BITS) && _FILE_OFFSET_BITS == 64 && __BITS_PER_LONG < 64
+which is correct with the added precondition that the ino_t /without/
+-D_FILE_OFFSET_BITS=64 /was actually/ u32
+(i.e. it conflates /all/ ILP32 systems into being non-LFS).
+
+This is not the case on x32, for example, which is LFS; thus, the
+  static_assert(sizeof(unsigned long) == sizeof(__ino_t), "inode size mismatch");
+assertion fails (__ino_t is the "kernel ino_t" type,
+which generally corresponds to the kernel's ulong, which is u64 on x32).
+
+The correct spelling of the test for this is
+  #if (...) && sizeof(__ino_t) == 4
+but this is not statically solvable with the preprocessor.
+
+Thus, we need to explcitly special-case this.
+__x86_64__ indicates one of two ABIs (LP64 (amd64) or ILP32 (x32)),
+both of which have ino_t=u64, and is the macro used for defining
+__INO_T_TYPE in the system headers, so it's the best fit here.
+
+Fixes: commit 9395cc0322 ("Always build for LFS mode on 32-bit archs.")
+Closes: #463
+Closes: Debian#1098481
+---
+ libselinux/include/selinux/selinux.h | 2 +-
+ libselinux/src/matchpathcon.c        | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/libselinux/include/selinux/selinux.h b/libselinux/include/selinux/selinux.h
+index f3cf5a20..318e273f 100644
+--- libselinux/include/selinux/selinux.h
++++ libselinux/include/selinux/selinux.h
+@@ -537,7 +537,7 @@ extern int matchpathcon_index(const char *path,
+    with the same inode (e.g. due to multiple hard links).  If so, then
+    use the latter of the two specifications based on their order in the 
+    file contexts configuration.  Return the used specification index. */
+-#if defined(_FILE_OFFSET_BITS) && _FILE_OFFSET_BITS == 64 && __BITS_PER_LONG < 64
++#if defined(_FILE_OFFSET_BITS) && _FILE_OFFSET_BITS == 64 && __BITS_PER_LONG < 64 && !defined(__x86_64__)
+ #define matchpathcon_filespec_add matchpathcon_filespec_add64
+ #endif
+ extern int matchpathcon_filespec_add(ino_t ino, int specind, const char *file);
+diff --git a/libselinux/src/matchpathcon.c b/libselinux/src/matchpathcon.c
+index 51f0e4ff..61f27274 100644
+--- libselinux/src/matchpathcon.c
++++ libselinux/src/matchpathcon.c
+@@ -261,7 +261,7 @@ int matchpathcon_filespec_add(ino_t ino, int specind, const char *file)
+ 	return -1;
+ }
+ 
+-#if defined(_FILE_OFFSET_BITS) && _FILE_OFFSET_BITS == 64 && __BITS_PER_LONG < 64
++#if defined(_FILE_OFFSET_BITS) && _FILE_OFFSET_BITS == 64 && __BITS_PER_LONG < 64 && !defined(__x86_64__)
+ /* alias defined in the public header but we undefine it here */
+ #undef matchpathcon_filespec_add
+ 
+@@ -282,7 +282,7 @@ int matchpathcon_filespec_add(unsigned long ino, int specind,
+ }
+ #else
+ 
+-static_assert(sizeof(unsigned long) == sizeof(ino_t), "inode size mismatch");
++static_assert(sizeof(uint64_t) == sizeof(ino_t), "inode size mismatch");
+ 
+ #endif
+ 
+-- 
+2.42.0
+
