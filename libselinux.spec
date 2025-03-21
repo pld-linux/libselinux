@@ -7,13 +7,13 @@
 Summary:	SELinux library and simple utilities
 Summary(pl.UTF-8):	Biblioteka SELinux i proste narzędzia
 Name:		libselinux
-Version:	3.8
-Release:	3
+Version:	3.8.1
+Release:	1
 License:	Public Domain
 Group:		Libraries
 #Source0Download: https://github.com/SELinuxProject/selinux/wiki/Releases
 Source0:	https://github.com/SELinuxProject/selinux/releases/download/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	af4b7d1b3b2d32d4c1397604d66de76f
+# Source0-md5:	769362224f270b441859d047197b3ec0
 Patch0:		%{name}-no-pip.patch
 Patch1:		%{name}-x32.patch
 URL:		https://github.com/SELinuxProject/selinux/wiki
