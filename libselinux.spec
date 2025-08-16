@@ -147,7 +147,7 @@ Wiązania języka Ruby do biblioteki SELinux.
 %build
 %{__make} -j1 all %{?with_python:pywrap} %{?with_ruby:rubywrap} \
 	CC="%{__cc}" \
-	CFLAGS="%{rpmcppflags} %{rpmcflags} -D_FILE_OFFSET_BITS=64" \
+	CFLAGS="%{rpmcppflags} %{rpmcflags} -D_FILE_OFFSET_BITS=64 -Wno-incompatible-pointer-types" \
 	LDFLAGS="%{rpmldflags}" \
 	LIBDIR=%{_libdir} \
 	PYPREFIX=python3 \
