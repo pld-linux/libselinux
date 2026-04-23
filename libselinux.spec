@@ -3,19 +3,18 @@
 %bcond_without	python	# Python 3 binding
 %bcond_without	ruby	# Ruby binding
 
-%define	sepol_ver	3.8
+%define	sepol_ver	3.10
 Summary:	SELinux library and simple utilities
 Summary(pl.UTF-8):	Biblioteka SELinux i proste narzędzia
 Name:		libselinux
-Version:	3.8.1
-Release:	2
+Version:	3.10
+Release:	1
 License:	Public Domain
 Group:		Libraries
 #Source0Download: https://github.com/SELinuxProject/selinux/wiki/Releases
 Source0:	https://github.com/SELinuxProject/selinux/releases/download/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	769362224f270b441859d047197b3ec0
+# Source0-md5:	75d9c8c2e564fa76d9c2c1adba083499
 Patch0:		%{name}-no-pip.patch
-Patch1:		%{name}-x32.patch
 URL:		https://github.com/SELinuxProject/selinux/wiki
 %ifarch ppc ppc64 sparc sparcv9 sparc64
 BuildRequires:	gcc >= 5:3.4
@@ -142,7 +141,6 @@ Wiązania języka Ruby do biblioteki SELinux.
 %prep
 %setup -q
 %patch -P0 -p1
-%patch -P1 -p1
 
 %build
 %{__make} -j1 all %{?with_python:pywrap} %{?with_ruby:rubywrap} \
@@ -185,7 +183,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc LICENSE
-%attr(755,root,root) /%{_lib}/libselinux.so.*
+/%{_lib}/libselinux.so.1
 %{_mandir}/man5/customizable_types.5*
 %{_mandir}/man5/default_contexts.5*
 %{_mandir}/man5/default_type.5*
@@ -205,7 +203,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files devel
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libselinux.so
+%{_libdir}/libselinux.so
 %{_pkgconfigdir}/libselinux.pc
 %{_includedir}/selinux
 %{_mandir}/man3/avc_*.3*
@@ -308,9 +306,9 @@ rm -rf $RPM_BUILD_ROOT
 %files -n python3-selinux
 %defattr(644,root,root,755)
 %dir %{py3_sitedir}/selinux
-%attr(755,root,root) %{py3_sitedir}/_selinux.cpython-*.so
-%attr(755,root,root) %{py3_sitedir}/selinux/_selinux.cpython-*.so
-%attr(755,root,root) %{py3_sitedir}/selinux/audit2why.cpython-*.so
+%{py3_sitedir}/_selinux.cpython-*.so
+%{py3_sitedir}/selinux/_selinux.cpython-*.so
+%{py3_sitedir}/selinux/audit2why.cpython-*.so
 %{py3_sitedir}/selinux/__init__.py
 %{py3_sitedir}/selinux/__pycache__
 %{py3_sitedir}/selinux-%{version}-py*.egg-info
@@ -319,5 +317,5 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with ruby}
 %files -n ruby-selinux
 %defattr(644,root,root,755)
-%attr(755,root,root) %{ruby_vendorarchdir}/selinux.so
+%{ruby_vendorarchdir}/selinux.so
 %endif
