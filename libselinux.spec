@@ -3,17 +3,17 @@
 %bcond_without	python	# Python 3 binding
 %bcond_without	ruby	# Ruby binding
 
-%define	sepol_ver	3.10
+%define	sepol_ver	3.11
 Summary:	SELinux library and simple utilities
 Summary(pl.UTF-8):	Biblioteka SELinux i proste narzędzia
 Name:		libselinux
-Version:	3.10
+Version:	3.11
 Release:	1
 License:	Public Domain
 Group:		Libraries
 #Source0Download: https://github.com/SELinuxProject/selinux/wiki/Releases
 Source0:	https://github.com/SELinuxProject/selinux/releases/download/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	75d9c8c2e564fa76d9c2c1adba083499
+# Source0-md5:	14c406813dc389a9c9a0d70a05b8be65
 Patch0:		%{name}-no-pip.patch
 URL:		https://github.com/SELinuxProject/selinux/wiki
 %ifarch ppc ppc64 sparc sparcv9 sparc64
@@ -26,8 +26,9 @@ BuildRequires:	libsepol-devel >= %{sepol_ver}
 %{?with_python:BuildRequires:	libsepol-static >= %{sepol_ver}}
 BuildRequires:	pcre2-8-devel
 BuildRequires:	pkgconfig
+%{?with_python:BuildRequires:	python3-build}
 %{?with_python:BuildRequires:	python3-devel >= 1:3.2}
-%{?with_python:BuildRequires:	python3-setuptools}
+%{?with_python:BuildRequires:	python3-installer}
 %{?with_python:BuildRequires:	rpm-pythonprov}
 BuildRequires:	rpmbuild(macros) >= 1.714
 %{?with_ruby:BuildRequires:	ruby-devel >= 1.9}
@@ -311,7 +312,7 @@ rm -rf $RPM_BUILD_ROOT
 %{py3_sitedir}/selinux/audit2why.cpython-*.so
 %{py3_sitedir}/selinux/__init__.py
 %{py3_sitedir}/selinux/__pycache__
-%{py3_sitedir}/selinux-%{version}-py*.egg-info
+%{py3_sitedir}/selinux-%{version}.dist-info
 %endif
 
 %if %{with ruby}
