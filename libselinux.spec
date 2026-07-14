@@ -29,6 +29,7 @@ BuildRequires:	pkgconfig
 %{?with_python:BuildRequires:	python3-build}
 %{?with_python:BuildRequires:	python3-devel >= 1:3.2}
 %{?with_python:BuildRequires:	python3-installer}
+%{?with_python:BuildRequires:	python3-setuptools}
 %{?with_python:BuildRequires:	rpm-pythonprov}
 BuildRequires:	rpmbuild(macros) >= 1.714
 %{?with_ruby:BuildRequires:	ruby-devel >= 1.9}
