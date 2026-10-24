@@ -8,7 +8,7 @@ Summary:	SELinux library and simple utilities
 Summary(pl.UTF-8):	Biblioteka SELinux i proste narzędzia
 Name:		libselinux
 Version:	3.11
-Release:	1
+Release:	2
 License:	Public Domain
 Group:		Libraries
 #Source0Download: https://github.com/SELinuxProject/selinux/wiki/Releases
@@ -80,7 +80,7 @@ które używają API SELinux.
 Summary:	Header files and devel documentation
 Summary(pl.UTF-8):	Pliki nagłówkowe i dokumentacja programistyczna
 Group:		Development/Libraries
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	libsepol-devel >= %{sepol_ver}
 Obsoletes:	selinux-libs-devel < 20030601
 
@@ -94,7 +94,7 @@ Pliki nagłówkowe i dokumentacja programistyczna bibliotek SELinux.
 Summary:	Static SELinux library
 Summary(pl.UTF-8):	Biblioteki statyczne SELinux
 Group:		Development/Libraries
-Requires:	%{name}-devel = %{version}-%{release}
+Requires:	%{name}-devel%{?_isa} = %{version}-%{release}
 Obsoletes:	selinux-static < 20030601
 
 %description static
@@ -107,7 +107,7 @@ Biblioteki statyczne SELinux.
 Summary:	SELinux utils
 Summary(pl.UTF-8):	Narzędzia SELinux
 Group:		Applications/System
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name}%{?_isa} = %{version}-%{release}
 Obsoletes:	selinux-utils < 20030601
 
 %description utils
@@ -120,7 +120,7 @@ Narzędzia SELinux.
 Summary:	Python 3 binding for SELinux library
 Summary(pl.UTF-8):	Wiązania Pythona 3 do biblioteki SELinux
 Group:		Libraries/Python
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name}%{?_isa} = %{version}-%{release}
 
 %description -n python3-selinux
 Python 3 binding for SELinux library.
@@ -132,7 +132,7 @@ Wiązania Pythona 3 do biblioteki SELinux.
 Summary:	Ruby binding for SELinux library
 Summary(pl.UTF-8):	Wiązania języka Ruby do biblioteki SELinux
 Group:		Development/Languages
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name}%{?_isa} = %{version}-%{release}
 
 %description -n ruby-selinux
 Ruby binding for SELinux library.
