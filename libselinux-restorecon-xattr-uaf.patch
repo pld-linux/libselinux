@@ -1,0 +1,56 @@
+From 15e0901f9baef42254d24e64c1ef5fd9084f5dc0 Mon Sep 17 00:00:00 2001
+From: Vit Mojzis <vmojzis@redhat.com>
+Date: Thu, 6 Aug 2026 21:37:35 +0200
+Subject: [PATCH] libselinux: restorecon_xattr: reset dir_xattr_list on every
+ call
+
+selinux_restorecon_xattr(3) documents that "xattr_list must be set to
+NULL before calling selinux_restorecon_xattr(3). The caller is
+responsible for freeing the returned xattr_list entries." Commit
+b5a23d7f30c1 ("libselinux: restorecon_xattr: clear dir_xattr_* after
+freeing") reset the dir_xattr_list/dir_xattr_last statics after
+freeing them on the internal error-cleanup path of the recursive
+walk, but not on the normal success path.
+
+After a successful call, dir_xattr_list/dir_xattr_last are left
+pointing at the just-returned, now caller-owned list. Once the caller
+frees it as required and calls the function again, add_xattr_entry()
+finds dir_xattr_list non-NULL and appends the next entry through
+dir_xattr_last->next, a dangling pointer into memory the caller has
+already freed - a use-after-free write.
+
+Reset both pointers to NULL at the top of every call instead of only
+in the error path: by the API description, any list from a prior call
+is not valid.
+
+Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>
+
+Signed-off-by: Vit Mojzis <vmojzis@redhat.com>
+Acked-by: Stephen Smalley <stephen.smalley.work@gmail.com>
+---
+ libselinux/src/selinux_restorecon.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/libselinux/src/selinux_restorecon.c b/libselinux/src/selinux_restorecon.c
+index 4233ba6539..49b8ff7ed4 100644
+--- a/libselinux/src/selinux_restorecon.c
++++ b/libselinux/src/selinux_restorecon.c
+@@ -1968,6 +1968,18 @@ int selinux_restorecon_xattr(const char *pathname, unsigned int xattr_flags,
+ 	if (!fc_sehandle)
+ 		return -1;
+ 
++	/*
++	 * The API contract requires the caller to have already freed any
++	 * xattr_list returned by a previous call before calling again.
++	 * Forget our own head/tail pointers to that now caller-owned memory
++	 * here instead of carrying them over: leaving them set would make
++	 * the next add_xattr_entry() append a new entry through
++	 * dir_xattr_last, which would be dangling once the caller has freed
++	 * it, resulting in a use-after-free.
++	 */
++	dir_xattr_list = NULL;
++	dir_xattr_last = NULL;
++
+ 	if (lstat(pathname, &sb) < 0) {
+ 		if (errno == ENOENT)
+ 			return 0;

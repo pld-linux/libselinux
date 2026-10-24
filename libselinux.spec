@@ -8,13 +8,17 @@ Summary:	SELinux library and simple utilities
 Summary(pl.UTF-8):	Biblioteka SELinux i proste narzędzia
 Name:		libselinux
 Version:	3.11
-Release:	2
+Release:	3
 License:	Public Domain
 Group:		Libraries
 #Source0Download: https://github.com/SELinuxProject/selinux/wiki/Releases
 Source0:	https://github.com/SELinuxProject/selinux/releases/download/%{version}/%{name}-%{version}.tar.gz
 # Source0-md5:	14c406813dc389a9c9a0d70a05b8be65
 Patch0:		%{name}-no-pip.patch
+# https://github.com/SELinuxProject/selinux/commit/fb518ff492; SWIG 4.5 dropped PyString_* macros
+Patch1:		%{name}-swig4.5.patch
+# https://github.com/SELinuxProject/selinux/commit/15e0901f9b
+Patch2:		%{name}-restorecon-xattr-uaf.patch
 URL:		https://github.com/SELinuxProject/selinux/wiki
 %ifarch ppc ppc64 sparc sparcv9 sparc64
 BuildRequires:	gcc >= 5:3.4
@@ -143,11 +147,13 @@ Wiązania języka Ruby do biblioteki SELinux.
 %prep
 %setup -q
 %patch -P0 -p1
+%patch -P1 -p2
+%patch -P2 -p2
 
 %build
 %{__make} -j1 all %{?with_python:pywrap} %{?with_ruby:rubywrap} \
 	CC="%{__cc}" \
-	CFLAGS="%{rpmcppflags} %{rpmcflags} -D_FILE_OFFSET_BITS=64 -Wno-incompatible-pointer-types" \
+	CFLAGS="%{rpmcppflags} %{rpmcflags} -D_FILE_OFFSET_BITS=64" \
 	LDFLAGS="%{rpmldflags}" \
 	LIBDIR=%{_libdir} \
 	PYPREFIX=python3 \
